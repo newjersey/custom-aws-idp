@@ -19,9 +19,14 @@ xml-crypto, saml-idp had insecure dependencies, and passport-saml depends on
 [ExpressJS](https://expressjs.com/) which we aren't using).
 
 In light of these issues, a dependable, open-source IdP was chosen, even though
-our office generally does not support Java. A thin slice of <500 lines of code
-has been copied, massaged, and adapted to generate those SAMLResponse documents
-for logging in to AWS Connect.
+our office generally does not support Java. A 
+[medium article](https://neuw.medium.com/aws-connect-saml-based-identity-provider-using-keycloak-9b3e6d0111e6)
+about manually configuring exactly the type of Keycloak client needed here was
+followed, and after that client was verified to correctly federate sign-ons to
+AWS, an intensive live-debugging process allowed us to find a thin slice of <500
+lines of code along with hardcoded stand-ins to be used in this repository. The
+Keycloak code was copied, massaged, and adapted to be a standalone solution for
+generating those SAMLResponse documents for logging in to AWS Connect.
 
 ## Requirements
 
