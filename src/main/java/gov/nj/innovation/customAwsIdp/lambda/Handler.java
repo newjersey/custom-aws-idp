@@ -26,7 +26,7 @@ public class Handler implements RequestHandler<Map<String, Object>, String> {
     public String handleRequest(Map<String, Object> input, Context context) {
         final String user = (String) input.get("user");
         final String ssoRole = (String) input.get("ssoRole");
-        String duration = (String) input.getOrDefault("duration", DEFAULT_DURATION);
+        final String duration = (String) input.getOrDefault("duration", DEFAULT_DURATION);
 
         if (user == null || user.isBlank() || ssoRole == null || ssoRole.isBlank()) {
             final String errorMessage =
