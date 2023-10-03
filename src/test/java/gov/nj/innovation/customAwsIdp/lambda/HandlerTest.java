@@ -138,6 +138,4 @@ public class HandlerTest {
         Assertions.assertTrue(responseValue.error() != null && !responseValue.error().isBlank(),
                 "error should not be null or blank");
     }
-
-
 }
