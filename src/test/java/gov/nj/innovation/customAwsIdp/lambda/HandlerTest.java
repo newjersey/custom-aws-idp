@@ -100,7 +100,7 @@ public class HandlerTest {
     @DisplayName("Returns 400 with no SAMLResponse and an Error if user and/or ssoRole are null or blank")
     void testBadUserOrSsoRole(String user, String ssoRole) throws Exception {
         Handler handler = new Handler();
-        HashMap<String, Object> inputMap = new HashMap<>();
+        Map<String, Object> inputMap = new HashMap<>();
         inputMap.put("user", user);
         inputMap.put("ssoRole", ssoRole);
         inputMap.put("duration", "1234");
@@ -122,12 +122,12 @@ public class HandlerTest {
     @DisplayName("Returns 400 with no SAMLResponse and an Error if duration is invalid")
     void testBadUserOrSsoRole(String duration) throws Exception {
         Handler handler = new Handler();
-        HashMap<String, Object> inputMap = new HashMap<>();
-        inputMap.put("user", USER);
-        inputMap.put("ssoRole", SSO_ROLE);
-        inputMap.put("duration", duration);
-
-        String response = handler.handleRequest(inputMap, null);
+        String response = handler.handleRequest(
+                Map.of(
+                        "user", USER,
+                        "ssoRole", SSO_ROLE,
+                        "duration", duration
+                ), null);
         Assertions.assertTrue(response != null && !response.isBlank(),
                 "Response should be non-null and non-empty");
 
