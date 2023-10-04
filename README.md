@@ -1,4 +1,4 @@
-# custom-aws-idp
+# Custom AWS Identity Provider (for AWS Connect)
 
 Dynamically generate SAML Response XML documents from a custom Identity Provider
 without running a server. The primary goal is to create SAML Responses which can
