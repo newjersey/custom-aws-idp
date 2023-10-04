@@ -15,9 +15,9 @@ dependencies {
         'com.fasterxml.jackson.core:jackson-databind:2.15.2',
         'com.fasterxml.jackson.core:jackson-annotations:2.15.2',
         // For SAML generation
-        'org.keycloak:keycloak-saml-core:22.0.3',
-        'org.keycloak:keycloak-adapter-core:22.0.3',
-        'org.keycloak:keycloak-services:22.0.3'
+        'org.keycloak:keycloak-saml-core:22.0.4',
+        'org.keycloak:keycloak-adapter-core:22.0.4',
+        'org.keycloak:keycloak-services:22.0.4'
     )
     testImplementation(
         'org.junit.jupiter:junit-jupiter-api:5.10.0',
