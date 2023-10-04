@@ -30,7 +30,7 @@ repository. The Keycloak code was copied, massaged, and adapted to be a
 standalone solution for generating those SAML Response documents used for
 logging in to AWS Connect.
 
-## Requirements
+## Requirements and Deployment
 
 1. This is built in Java 17 using Gradle
 
