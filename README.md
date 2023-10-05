@@ -13,11 +13,15 @@ some external service. Other tools were investigated in JavaScript
 ([@node-saml/node-saml](https://github.com/node-saml/node-saml/),
 [xml-crypto](https://github.com/node-saml/xml-crypto/),
 [saml-idp](https://github.com/mcguinness/saml-idp), and
-[passport-saml](http://www.passportjs.org/packages/passport-saml/)), but they
-all seemed to be bad fits (node-saml explicitly is intended to be used on the
-Service Provider (SP) side, I was unable to generate a valid signature with
-xml-crypto, saml-idp had insecure dependencies, and passport-saml depends on
-[ExpressJS](https://expressjs.com/) which we aren't using).
+[@node-saml/passport-saml](http://www.passportjs.org/packages/passport-saml/)),
+but they all seemed to be bad fits (node-saml explicitly is intended to be used
+on the Service Provider (SP) side, I was unable to generate a valid signature
+with xml-crypto, saml-idp had insecure dependencies, and passport-saml may
+actually work (I should definitely come back to
+[this](https://github.com/node-saml/passport-saml/blob/master/docs/xml-signing-example.js)
+especially), but I didn't look into it very hard after seeing that it was built
+to be used with [ExpressJS](https://expressjs.com/), especially knowing that
+this was only going to be backend code).
 
 In light of these issues, a dependable, open-source IdP was chosen, even though
 our office generally does not support Java. A 

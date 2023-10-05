@@ -2,7 +2,6 @@ package gov.nj.innovation.customAwsIdp;
 
 import gov.nj.innovation.customAwsIdp.keys.KeyConstants;
 import gov.nj.innovation.customAwsIdp.keys.KeysWrapper;
-import org.bouncycastle.asn1.x500.X500Name;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -11,12 +10,24 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
-import java.util.Date;
+
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.CERT_NOT_AFTER;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.CERT_NOT_BEFORE;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.CERT_SERIAL;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.CERT_SUBJECT;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.CRT_COEFFICIENT;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.MODULUS;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.PRIME_EXPONENT_P;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.PRIME_EXPONENT_Q;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.PRIME_P;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.PRIME_Q;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.PRIVATE_EXPONENT;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.PUBLIC_EXPONENT;
+import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.SIGNATURE_ALGORITHM;
 
 /**
  * Tests for {@link SamlGenerator}.
@@ -40,84 +51,22 @@ public class SamlGeneratorTest {
     private static final String AUTHN_STATEMENT_SESSION_NOT_ON_OR_AFTER = "2023-10-02T08:00:01.068Z";
     private static final String AUTHN_STATEMENT_SESSION_INDEX = ASSERTION_ID;
     private static final String VALIDATED_SAML_RESPONSE_FILEPATH = "./src/test/resources/validatedSignedSamlResponse.xml";
-    private static KeysWrapper testKeys;
-
-    @BeforeAll
-    static void createTestKeys() {
-        BigInteger modulus = new BigInteger(
-                "22677974915050944078461764193052086685612422886653129966406898891640552702723187" +
-                        "651748753893169403239949307486793794436232550013048860511799199448750673" +
-                        "727894403945734106850876493539038073544416013323804855339770420391544025" +
-                        "357955256202721629192822031612672259899947988772728037244868065127008714" +
-                        "289841032060536668452506483479699611788091872105651219817275374428723167" +
-                        "305362844116836623263360736859443098211386646756350982575062060545581019" +
-                        "912311904126988936680434802991803415922815324589493813112228709634933389" +
-                        "607199433744823421347161515965705700023418072722194325834553724568896465" +
-                        "966048279285465688339476184785513");
-        BigInteger publicExponent = new BigInteger("65537");
-        BigInteger privateExponent = new BigInteger(
-                "99181753208515446945833699464936667016550356438148730894324998013587338731068459" +
-                        "964332920100549005960762168826804268280286779185652831899452912736288842" +
-                        "291495392388208773305651387164911238379361884415453357061838301184465359" +
-                        "540777351863910263933237939041796031155264847063234107074023973740465275" +
-                        "086221307265585912988011409733023051220476097710594436933373486235030014" +
-                        "916767387873109716406760851640646622463578188691241603750325393299313215" +
-                        "006483194327973830956685111378221030131723154143951968586515181066678276" +
-                        "013202252726969080222784005252041913912288730931292991576731109846173959" +
-                        "4694582101837760154779049349473");
-        BigInteger primeP = new BigInteger(
-                "16349126722384686431275904713486430886977066508990251170284053900026494562204867" +
-                        "744319187729543018975638715175328569037685704917934725308978647959772745" +
-                        "016201300851097387256678052682712352135489528541546045176079720449868142" +
-                        "196245805457065164389714138292369384957306371753647221290418447883615031" +
-                        "7621062560601");
-        BigInteger primeQ = new BigInteger(
-                "13871061922837142681945035862349880189535194048901080097963915153419958450723403" +
-                        "938501664730926349866288497831631534090822905014928653840261792938886833" +
-                        "395086361820052176505799769325655382025211205011315226899385315797019091" +
-                        "321268075560754410714529572114887432614341097438240009679910493898321014" +
-                        "9633732877713");
-        BigInteger primeExponentP = new BigInteger(
-                "16348877258315193096420307479790755368859255546228620484546679835697946925075273" +
-                        "700225861529263336612714326834159834909345413392461817871572160347462755" +
-                        "655305681562743463558808808163544817577115854288398334019859934989434343" +
-                        "454432841088762418381132883212974655729771432614355620405097325182730285" +
-                        "5114118070273");
-        BigInteger primeExponentQ = new BigInteger(
-                "11009945071700952517998974938181155951286010333548763074537816841871810101899396" +
-                        "516119414950914106439026219825497669589247550177328434992699974165554636" +
-                        "104475295718713004404461574386243912867074502547928754567330282778356288" +
-                        "988526237432212089216154444235230928439895166816299297550074980272163218" +
-                        "9050416567217");
-        BigInteger crtCoefficient = new BigInteger(
-                "12184670836942564532594013718120505163607151281014131451689760816680375723185279" +
-                        "763401514157576581602458430134504498914799297870407774134629646502863263" +
-                        "864592534080775491236697368864656416266235661731507201672578304569609235" +
-                        "831609240664824158520935430058898440871512892452119178554696789337898159" +
-                        "6873692932103");
-        X500Name crtSubject = new X500Name("CN=AwsConnectStandaloneIdP");
-        BigInteger crtSerial = new BigInteger("1696169640002");
-        Date crtNotBefore = new Date(1696169540000L);
-        Date crtNotAfter = new Date(2011788840000L);
-        String signatureAlgorithm = "SHA256WithRSA";
-
-        KeyConstants keyConstants = new KeyConstants(
-                modulus,
-                publicExponent,
-                privateExponent,
-                primeP,
-                primeQ,
-                primeExponentP,
-                primeExponentQ,
-                crtCoefficient,
-                crtSubject,
-                crtSerial,
-                crtNotBefore,
-                crtNotAfter,
-                signatureAlgorithm
-        );
-        testKeys = new KeysWrapper(keyConstants);
-    }
+    private static final KeysWrapper TEST_KEYS = new KeysWrapper(
+            new KeyConstants(
+                    MODULUS,
+                    PUBLIC_EXPONENT,
+                    PRIVATE_EXPONENT,
+                    PRIME_P,
+                    PRIME_Q,
+                    PRIME_EXPONENT_P,
+                    PRIME_EXPONENT_Q,
+                    CRT_COEFFICIENT,
+                    CERT_SUBJECT,
+                    CERT_SERIAL,
+                    CERT_NOT_BEFORE,
+                    CERT_NOT_AFTER,
+                    SIGNATURE_ALGORITHM
+            ));
 
     /**
      * One big test which:
@@ -136,7 +85,7 @@ public class SamlGeneratorTest {
     @Test
     @DisplayName("Test that the SamlGenerator can produce a SAMLResponse that matches one validated to work in AWS")
     void testFullSamlResponse() throws IOException {
-        SamlGenerator samlGenerator = new SamlGenerator(TEST_USER, ROLE_NAME, DURATION, testKeys);
+        SamlGenerator samlGenerator = new SamlGenerator(TEST_USER, ROLE_NAME, DURATION, TEST_KEYS);
         Document samlDocument = samlGenerator.createUnsignedSamlResponse();
         replaceTimestampsAndIds(samlDocument);
         String base64Encoded = samlGenerator.signAndEncode(samlDocument);

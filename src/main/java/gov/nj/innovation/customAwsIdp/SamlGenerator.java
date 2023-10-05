@@ -54,8 +54,12 @@ public class SamlGenerator {
     private static final String ISSUER = "https://innovation.nj.gov/realms/AwsConnectStandaloneIdP";
     private static final String NAME_ID_FORMAT = "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified";
     private static final String SESSION_ROLE_ATTR_NAME = "https://aws.amazon.com/SAML/Attributes/Role";
+    private static final String SESSION_ROLE_NAME = "Session Role";
     private static final String SESSION_NAME_ATTR_NAME = "https://aws.amazon.com/SAML/Attributes/RoleSessionName";
+    private static final String SESSION_NAME_NAME = "Session Name";
     private static final String SESSION_DURATION_ATTR_NAME = "https://aws.amazon.com/SAML/Attributes/SessionDuration";
+    private static final String SESSION_DURATION_NAME = "Session Duration";
+    private static final String BASIC_NAME_FORMAT = "Basic";
     private static final int ASSERTION_EXPIRATION = 60;
     private static final int SUBJECT_EXPIRATION = 300;
     private static final int SESSION_EXPIRATION = 36000;
@@ -118,16 +122,16 @@ public class SamlGenerator {
                 new AtomicReference<>(null);
 
         ProtocolMapperModel roleMapping = RoleListMapper
-                .create("Session Role", SESSION_ROLE_ATTR_NAME, "Basic", null, true);
+                .create(SESSION_ROLE_NAME, SESSION_ROLE_ATTR_NAME, BASIC_NAME_FORMAT, null, true);
         roleListMapper.set(new SamlProtocol.ProtocolMapperProcessor<>(new RoleListMapper(), roleMapping));
 
         ProtocolMapperModel nameMapping = HardcodedAttributeMapper
-                .create("Session Name", SESSION_NAME_ATTR_NAME, "Basic", null, user);
+                .create(SESSION_NAME_NAME, SESSION_NAME_ATTR_NAME, BASIC_NAME_FORMAT, null, user);
         attributeStatementMappers
                 .add(new SamlProtocol.ProtocolMapperProcessor<>(new HardcodedAttributeMapper(), nameMapping));
 
         ProtocolMapperModel durationMapping = HardcodedAttributeMapper
-                .create("Session Duration", SESSION_DURATION_ATTR_NAME, "Basic", null, duration);
+                .create(SESSION_DURATION_NAME, SESSION_DURATION_ATTR_NAME, BASIC_NAME_FORMAT, null, duration);
         attributeStatementMappers
                 .add(new SamlProtocol.ProtocolMapperProcessor<>(new HardcodedAttributeMapper(), durationMapping));
 
@@ -156,7 +160,7 @@ public class SamlGenerator {
     }
 
     /**
-     * Follow up on the results {@link #createUnsignedSamlResponse()} to sign and encode the document.
+     * Follow up on the results from {@link #createUnsignedSamlResponse()} to sign and encode the document.
      *
      * @param samlDocument The fully constructed SAML Document, ready to be signed
      * @return The Base64-encoded, signed SAML Response.
