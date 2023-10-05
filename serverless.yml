@@ -1,0 +1,24 @@
+service: custom-aws-idp
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: java17
+
+  environment:
+    # Get all secret key details from SSM
+    KEY_PRIVATE_EXPONENT: ${ssm:custom-aws-idp-private-key-private-exponent}
+    KEY_PRIME_P: ${ssm:custom-aws-idp-private-key-prime-p}
+    KEY_PRIME_Q: ${ssm:custom-aws-idp-private-key-prime-q}
+    KEY_PRIME_EXPONENT_P: ${ssm:custom-aws-idp-private-key-prime-exponent-p}
+    KEY_PRIME_EXPONENT_Q: ${ssm:custom-aws-idp-private-key-prime-exponent-q}
+    KEY_CRT_COEFFICIENT: ${ssm:custom-aws-idp-private-key-crt-coefficient}
+    # Set a default session duration of 1 hour
+    DEFAULT_SESSION_DURATION: 3600
+
+package:
+  artifact: build/distributions/customIdp.zip
+
+functions:
+  generateSamlResponse:
+    handler: gov.nj.innovation.customAwsIdp.lambda.Handler
