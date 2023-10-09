@@ -12,10 +12,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Case Walker (case@innovation.nj.gov)
  */
 public record CognitoGroupDescriptionMetadata(
-        @JsonAlias({"relayState", "RelayState"})
+        @JsonAlias({"relayState", "RelayState", "relaystate"})
         @JsonProperty(required = true)
         String relayState,
-        @JsonAlias({"ssoRole", "SsoRole", "SSORole"})
+        @JsonAlias({"ssoRole", "SsoRole", "SSORole", "ssorole"})
         @JsonProperty(required = true)
         String ssoRole
 ) {}

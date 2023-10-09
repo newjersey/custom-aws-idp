@@ -35,7 +35,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
  *               jwt: {
  *                   claims: {
  *                       email: EMAIL,
- *                       "cognito:groups": "[GROUP1,GROUP2,...]",
+ *                       "cognito:groups": "[GROUP1 GROUP2 GROUP3 ...]",
  *                       ...
  *                   }
  *               }
@@ -54,7 +54,7 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
  * or configured groups when called, even in the face of errors. Only a group assigned to the JWT-validated Cognito User
  * shall be honored, resulting in a full status-200 response.
  * <p>
- * Note also that the value of "cognito:groups" is a String and must be converted to a list.
+ * Note also that the value of "cognito:groups" is a String that is space-delimited and must be converted to a list.
  *
  * @author Case Walker (case@innovation.nj.gov)
  */
@@ -67,7 +67,7 @@ public class GetSamlResponseHandler implements RequestHandler<Map<String, Object
     private static final Pattern DIGITS_PATTERN = Pattern.compile("\\d+");
 
     private static final String INPUT_PATH_PARAMETERS = "pathParameters";
-    private static final String PATH_PARAMETER_GROUP_NAME = System.getenv("PATH_PARAMETER_GROUP_NAME");;
+    private static final String PATH_PARAMETER_GROUP_NAME = System.getenv("PATH_PARAMETER_GROUP_NAME");
     private static final String INPUT_QUERY_STRING_PARAMETERS = "queryStringParameters";
     private static final String DURATION_PARAMETER = "duration";
     private static final String NESTED_INPUT_REQUEST_CONTEXT = "requestContext";
@@ -86,7 +86,7 @@ public class GetSamlResponseHandler implements RequestHandler<Map<String, Object
         }
         if (rp.duration() == null || rp.duration().isBlank() || !DIGITS_PATTERN.matcher(rp.duration()).matches() ||
                 Integer.parseInt(rp.duration()) < 900 || Integer.parseInt(rp.duration()) > 43200) {
-            createErrorReturnMap(Status.INPUT_ERROR,
+            return createErrorReturnMap(Status.INPUT_ERROR,
                     String.format("Invalid duration, must be an int between 900 and 43200, was %s", rp.duration()));
         }
 
@@ -114,7 +114,7 @@ public class GetSamlResponseHandler implements RequestHandler<Map<String, Object
             keyConstants = new KeyConstants();
         } catch (NullPointerException | NumberFormatException e) {
             return createErrorReturnMap(Status.SYSTEM_ERROR,
-                    String.format("KeyConstants threw an exception: %s\nPlease check that the " +
+                    String.format("KeyConstants threw an exception: %s.\nNOTE: Please check that the " +
                             "key-secrets are correct in AWS Systems Manager", e.getMessage()));
         }
 
@@ -164,7 +164,7 @@ public class GetSamlResponseHandler implements RequestHandler<Map<String, Object
                 (String) claims.get(COGNITO_GROUPS_CLAIM) : null;
 
         final List<String> usersGroups = usersGroupsString != null ?
-                List.of(usersGroupsString.substring(1, usersGroupsString.length() - 1).split(",")) : null;
+                List.of(usersGroupsString.substring(1, usersGroupsString.length() - 1).split(" ")) : null;
 
         return new AuthorizerContextDetails(email, usersGroups);
     }

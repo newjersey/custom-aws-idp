@@ -1,6 +1,7 @@
 package gov.nj.innovation.customAwsIdp.lambda.helpers;
 
 import gov.nj.innovation.customAwsIdp.lambda.helpers.data.CognitoGroupDescriptionMetadata;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,11 @@ public class CognitoGroupDescriptionMetadataExtractorTest {
 
     private static final MockedStatic<CognitoIdentityProviderClient> CLIENT_MOCKER = mockStatic(CognitoIdentityProviderClient.class);
 
+    @AfterAll
+    static void releaseStaticMock() {
+        CLIENT_MOCKER.closeOnDemand();
+    }
+
     @Test
     @DisplayName("A simple and successful extraction")
     void testExtractorSuccess() {
@@ -45,7 +51,8 @@ public class CognitoGroupDescriptionMetadataExtractorTest {
     @ValueSource(strings = {
             "RelayState: https://example2.com\nssoRole: special-role-string2",
             "relayState: https://example2.com\nSsoRole: special-role-string2",
-            "relayState: https://example2.com\nSSORole: special-role-string2"
+            "relayState: https://example2.com\nSSORole: special-role-string2",
+            "relaystate: https://example2.com\nssorole: special-role-string2",
     })
     @DisplayName("The YAML parser accepts multiple capitalization options")
     void testExtractorNameVariations(String yamlDescription) {

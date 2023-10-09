@@ -77,6 +77,30 @@ logging in to AWS Connect.
    ./gradlew clean build && serverless deploy
    ```
 
+## Usage
+
+The Lambda handler is configured to expect and validate a Cognito user from the
+"_us-east-1_jKQHCtx7s_" user pool. All ApiGateway requests must have a valid JWT
+bearer token.
+
+As well, this Cognito integration implicitly depends on Groups inside the user
+pool. These groups should represent different AWS Connect instances, and they
+**must** have the _RelayState_ (in the form of 
+`https://us-east-1.console.aws.amazon.com/connect/federate/<CONNECT_INSTANCE_ID>`)
+and _SsoRole_ (in the form of `<ARN_FOR_SAML2_ROLE>,<ARN_FOR_SAML_IDP>`) of the
+target Connect instance defined as a YAML string inside the Group's description.
+For example:
+```yaml
+RelayState: "https://us-east-1.console.aws.amazon.com/connect/federate/00000000-0000-0000-0000-000000000000"
+SsoRole: "arn:aws:iam::000000000000:role/ROLE_NAME,arn:aws:iam::000000000000:saml-provider/IDP_NAME"
+```
+
+With all details setup, an Administrator would ensure the correct users are
+assigned their correct groups, and a GET request is then made to (with the `duration` parameter left optional):
+```
+https://BASE_URL/<GROUP_NAME>?duration=<DURATION>
+```
+
 ## What To Do in the Future
 
 ### Key Rotation
