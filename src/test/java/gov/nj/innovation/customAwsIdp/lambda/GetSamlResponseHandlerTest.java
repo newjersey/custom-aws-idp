@@ -18,10 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.niceMock;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.resetToNice;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for {@link GetSamlResponseHandler}. Because of laziness (but also thoroughness), this will be an integration test suite.
@@ -33,9 +31,9 @@ public class GetSamlResponseHandlerTest {
     private static final String USER = "test@test.com";
     private static final String SSO_ROLE = "arn:aws:iam::274460373520:role/TempForTesting," +
             "arn:aws:iam::274460373520:saml-provider/TempForTesting";
-    private static final Context TEST_CONTEXT = niceMock(Context.class);
-    private static final ClientContext CLIENT_CONTEXT = niceMock(ClientContext.class);
-    private static final CognitoIdentity COGNITO_IDENTITY = niceMock(CognitoIdentity.class);
+    private static final Context TEST_CONTEXT = mock(Context.class);
+    private static final ClientContext CLIENT_CONTEXT = mock(ClientContext.class);
+    private static final CognitoIdentity COGNITO_IDENTITY = mock(CognitoIdentity.class);
 
     /**
      * NOTE: This only works when running the tests locally. When running the tests with Gradle, the test-task uses its
@@ -56,10 +54,8 @@ public class GetSamlResponseHandlerTest {
 
     @BeforeEach
     void setupMocks() {
-        resetToNice(TEST_CONTEXT, CLIENT_CONTEXT, COGNITO_IDENTITY);
-        expect(TEST_CONTEXT.getClientContext()).andReturn(CLIENT_CONTEXT).anyTimes();
-        expect(TEST_CONTEXT.getIdentity()).andReturn(COGNITO_IDENTITY).anyTimes();
-        replay(TEST_CONTEXT, CLIENT_CONTEXT, COGNITO_IDENTITY);
+        when(TEST_CONTEXT.getClientContext()).thenReturn(CLIENT_CONTEXT);
+        when(TEST_CONTEXT.getIdentity()).thenReturn(COGNITO_IDENTITY);
     }
 
     @Test

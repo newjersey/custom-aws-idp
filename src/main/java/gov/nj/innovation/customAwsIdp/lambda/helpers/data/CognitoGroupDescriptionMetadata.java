@@ -1,5 +1,6 @@
 package gov.nj.innovation.customAwsIdp.lambda.helpers.data;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -11,6 +12,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author Case Walker (case@innovation.nj.gov)
  */
 public record CognitoGroupDescriptionMetadata(
-        @JsonProperty String relayState,
-        @JsonProperty String ssoRole
+        @JsonAlias({"relayState", "RelayState"})
+        @JsonProperty(required = true)
+        String relayState,
+        @JsonAlias({"ssoRole", "SsoRole", "SSORole"})
+        @JsonProperty(required = true)
+        String ssoRole
 ) {}
