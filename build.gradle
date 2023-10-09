@@ -8,35 +8,45 @@ repositories {
 
 dependencies {
     api(
-        // From Serverless
+        // From the Serverless generated code
         'com.amazonaws:aws-lambda-java-core:1.2.3',
         'com.amazonaws:aws-lambda-java-log4j:1.0.1',
         'com.fasterxml.jackson.core:jackson-core:2.15.2',
         'com.fasterxml.jackson.core:jackson-databind:2.15.2',
         'com.fasterxml.jackson.core:jackson-annotations:2.15.2',
-        // For SAML generation
+        // For getting the Cognito UserPool Group Description and reading YAML
+        'software.amazon.awssdk:cognitoidentity:2.20.161',
+        'software.amazon.awssdk:cognitoidentityprovider:2.20.161',
+        'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2',
+        // For SAML generation, from Keycloak
         'org.keycloak:keycloak-saml-core:22.0.4',
         'org.keycloak:keycloak-adapter-core:22.0.4',
-        'org.keycloak:keycloak-services:22.0.4'
+        'org.keycloak:keycloak-services:22.0.4',
+        // Logging provider
+        'org.slf4j:slf4j-reload4j:2.0.9'
     )
     testImplementation(
         'org.junit.jupiter:junit-jupiter-api:5.10.0',
         'org.junit.jupiter:junit-jupiter-params:5.10.0',
-        'uk.org.webcompere:system-stubs-jupiter:2.1.3'
+        'uk.org.webcompere:system-stubs-jupiter:2.1.3',
+        'org.easymock:easymock:5.2.0'
     )
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 }
 
-// Provide env vars for KeyConstants
 test {
     environment([
+        // Provide env vars for KeyConstants + testing odds and ends
         "KEY_PRIVATE_EXPONENT": "123",
         "KEY_PRIME_P": "123",
         "KEY_PRIME_Q": "123",
         "KEY_PRIME_EXPONENT_P": "123",
         "KEY_PRIME_EXPONENT_Q": "123",
         "KEY_CRT_COEFFICIENT": "123",
-        "DEFAULT_SESSION_DURATION": 900
+        "COGNITO_REGION": "us-east-1",
+        "COGNITO_USER_POOL": "myPoolOfCoolUsers",
+        "DEFAULT_SESSION_DURATION": 900,
+
     ])
     useJUnitPlatform()
 }

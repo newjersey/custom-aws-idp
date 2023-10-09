@@ -4,8 +4,10 @@ frameworkVersion: '3'
 provider:
   name: aws
   runtime: java17
-
   environment:
+    COGNITO_REGION: "us-east-1"
+    COGNITO_USER_POOL: "us-east-1_jKQHCtx7s"
+    PATH_PARAMETER_GROUP_NAME: "groupName"
     # Get all secret key details from SSM
     KEY_PRIVATE_EXPONENT: ${ssm:custom-aws-idp-private-key-private-exponent}
     KEY_PRIME_P: ${ssm:custom-aws-idp-private-key-prime-p}
@@ -15,10 +17,30 @@ provider:
     KEY_CRT_COEFFICIENT: ${ssm:custom-aws-idp-private-key-crt-coefficient}
     # Set a default session duration of 1 hour
     DEFAULT_SESSION_DURATION: 3600
+  httpApi:
+    cors: true
+    authorizers:
+      cognitoAuthorizer:
+        type: jwt
+        identitySource: $request.header.Authorization
+        issuerUrl: "https://cognito-idp.us-east-1.amazonaws.com/${self:provider.environment.COGNITO_USER_POOL}"
+        audience: [ 4bfgopjuh6lmgg4t66qf9uphrb ]
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: [ cognito-idp:GetGroup ]
+          Resource: "arn:aws:cognito-idp:us-east-1:274460373520:userpool/${self:provider.environment.COGNITO_USER_POOL}"
 
 package:
   artifact: build/distributions/customIdp.zip
 
 functions:
   generateSamlResponse:
-    handler: gov.nj.innovation.customAwsIdp.lambda.Handler
+    handler: gov.nj.innovation.customAwsIdp.lambda.GetSamlResponseHandler
+    events:
+      - httpApi:
+          path: "/generateSaml/{${self:provider.environment.PATH_PARAMETER_GROUP_NAME}}"
+          method: GET
+          authorizer:
+            name: cognitoAuthorizer
