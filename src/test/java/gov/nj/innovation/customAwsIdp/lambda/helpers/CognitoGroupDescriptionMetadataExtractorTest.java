@@ -63,9 +63,18 @@ public class CognitoGroupDescriptionMetadataExtractorTest {
         Assertions.assertEquals("special-role-string2", metadata.ssoRole(), "ssoRole should match");
     }
 
+    @Test
+    @DisplayName("Extra YAML fields are successfully ignored")
+    void testExtractorExtraFields() {
+        setupUglyMockingAndInjectGroupDescription("relayState: https://extra.com\nssoRole: roleStr\nFoo: bar");
+        CognitoGroupDescriptionMetadata metadata =
+                CognitoGroupDescriptionMetadataExtractor.extract("us-east-1", "group1", "test-user-pool");
+        Assertions.assertEquals("https://extra.com", metadata.relayState(), "relayState should match");
+        Assertions.assertEquals("roleStr", metadata.ssoRole(), "ssoRole should match");
+    }
+
     private static Stream<Arguments> throwsOnBadInput() {
         return Stream.of(
-                Arguments.of("relayState: https://example3.com\nssoRole: special-role-string3\nFoo: bar"),
                 Arguments.of("relayState: https://example3.com"),
                 Arguments.of("ssoRole: special-role-string3"),
                 Arguments.of(""),
@@ -75,7 +84,7 @@ public class CognitoGroupDescriptionMetadataExtractorTest {
     }
     @ParameterizedTest
     @MethodSource
-    @DisplayName("The YAML parser throws exceptions on: extra field, required field missing, empty input, weird input, null input")
+    @DisplayName("The YAML parser throws exceptions on: required field missing, empty input, weird input, null input")
     void throwsOnBadInput(String yamlDescription) {
         setupUglyMockingAndInjectGroupDescription(yamlDescription);
         Assertions.assertThrows(
