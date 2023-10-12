@@ -98,7 +98,7 @@ SsoRole: "arn:aws:iam::000000000000:role/ROLE_NAME,arn:aws:iam::000000000000:sam
 With all details setup, an Administrator would ensure the correct users are
 assigned their correct groups, and a GET request is then made to (with the `duration` parameter left optional):
 ```
-https://BASE_URL/<GROUP_NAME>?duration=<DURATION>
+https://BASE_URL/generateSaml/<GROUP_NAME>?duration=<DURATION>
 ```
 
 ## What To Do in the Future
