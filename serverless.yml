@@ -6,7 +6,7 @@ provider:
   runtime: java17
   environment:
     COGNITO_REGION: "us-east-1"
-    COGNITO_USER_POOL: "us-east-1_jKQHCtx7s"
+    COGNITO_USER_POOL: "us-east-1_AZyvZQdFN"
     PATH_PARAMETER_GROUP_NAME: "groupName"
     # Get all secret key details from SSM
     KEY_PRIVATE_EXPONENT: ${ssm:custom-aws-idp-private-key-private-exponent}
