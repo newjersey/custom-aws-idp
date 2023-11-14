@@ -7,6 +7,7 @@ provider:
   environment:
     COGNITO_REGION: "us-east-1"
     COGNITO_USER_POOL: "us-east-1_AZyvZQdFN"
+    COGNITO_APP_CLIENT_ID: "7i01fral9t0fdtodp78hi3vqrh"
     PATH_PARAMETER_GROUP_NAME: "groupName"
     # Get all secret key details from SSM
     KEY_PRIVATE_EXPONENT: ${ssm:custom-aws-idp-private-key-private-exponent}
@@ -24,7 +25,7 @@ provider:
         type: jwt
         identitySource: $request.header.Authorization
         issuerUrl: "https://cognito-idp.us-east-1.amazonaws.com/${self:provider.environment.COGNITO_USER_POOL}"
-        audience: [ 4bfgopjuh6lmgg4t66qf9uphrb ]
+        audience: [ "${self:provider.environment.COGNITO_APP_CLIENT_ID}" ]
   iam:
     role:
       statements:
