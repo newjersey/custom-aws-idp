@@ -4,7 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import gov.nj.innovation.customAwsIdp.lambda.helpers.data.CognitoGroupDescriptionMetadata;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.GetGroupRequest;
@@ -17,7 +18,7 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.GetGroupRes
  */
 public class CognitoGroupDescriptionMetadataExtractor {
 
-    private static final Logger logger = Logger.getLogger(CognitoGroupDescriptionMetadataExtractor.class);
+    private static final Logger logger = LogManager.getLogger(CognitoGroupDescriptionMetadataExtractor.class);
     final static ObjectMapper MAPPER = new ObjectMapper(new YAMLFactory());
 
     /**
