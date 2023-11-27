@@ -55,8 +55,7 @@ public record KeyConstants(
     private static final String KEY_CRT_COEFFICIENT_NAME = "KEY_CRT_COEFFICIENT_NAME";
 
     public KeyConstants(final SsmClient ssmClient) {
-        this(
-                KEY_MODULUS,
+        this(KEY_MODULUS,
                 KEY_PUBLIC_EXPONENT,
                 new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIVATE_EXPONENT_NAME))),
                 new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_P_NAME))),
