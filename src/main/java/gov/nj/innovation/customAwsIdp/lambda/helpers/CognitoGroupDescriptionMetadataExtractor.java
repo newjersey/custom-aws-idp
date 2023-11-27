@@ -26,7 +26,7 @@ public class CognitoGroupDescriptionMetadataExtractor {
      * @param region AWS Region of the Cognito UserPool
      * @param groupName Name of the Group whose description has the desired YAML metadata
      * @param userPoolId ID of the UserPool to which the Group belongs
-     * @return {@link CognitoGroupDescriptionMetadata} representing the parsed YAML from the Group description
+     * @return {@link CognitoGroupDescriptionMetadata} representing the parsed YAML from the Group description.
      */
     public static CognitoGroupDescriptionMetadata extract(String region, String groupName, String userPoolId) {
         try (final CognitoIdentityProviderClient cognitoClient = CognitoIdentityProviderClient.builder()

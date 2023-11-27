@@ -11,6 +11,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedStatic;
+import software.amazon.awssdk.services.ssm.SsmClient;
+import software.amazon.awssdk.services.ssm.model.GetParameterRequest;
+import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
+import software.amazon.awssdk.services.ssm.model.Parameter;
 import uk.org.webcompere.systemstubs.environment.EnvironmentVariables;
 import uk.org.webcompere.systemstubs.jupiter.SystemStub;
 
@@ -39,12 +43,12 @@ public class GetSamlResponseHandlerTest {
      */
     @SystemStub
     private final EnvironmentVariables envVariables = new EnvironmentVariables(
-            "KEY_PRIVATE_EXPONENT", "123",
-            "KEY_PRIME_P", "123",
-            "KEY_PRIME_Q", "123",
-            "KEY_PRIME_EXPONENT_P", "123",
-            "KEY_PRIME_EXPONENT_Q", "123",
-            "KEY_CRT_COEFFICIENT", "123",
+            "KEY_PRIVATE_EXPONENT_NAME", "custom-aws-idp-private-key-private-exponent",
+            "KEY_PRIME_P_NAME", "custom-aws-idp-private-key-prime-p",
+            "KEY_PRIME_Q_NAME", "custom-aws-idp-private-key-prime-q",
+            "KEY_PRIME_EXPONENT_P_NAME", "custom-aws-idp-private-key-prime-exponent-p",
+            "KEY_PRIME_EXPONENT_Q_NAME", "custom-aws-idp-private-key-prime-exponent-q",
+            "KEY_CRT_COEFFICIENT_NAME", "custom-aws-idp-private-key-crt-coefficient",
             "COGNITO_REGION", "us-east-1",
             "COGNITO_USER_POOL", "myPoolOfCoolUsers",
             "DEFAULT_SESSION_DURATION", "900",
@@ -60,7 +64,7 @@ public class GetSamlResponseHandlerTest {
     @DisplayName("A well configured SamlGenerator results in a SUCCESS response with a SAMLResponse in the output")
     void testSuccess() {
         setupNiceGroupDescriptionExtractor();
-        GetSamlResponseHandler getSamlResponseHandler = new GetSamlResponseHandler();
+        GetSamlResponseHandler getSamlResponseHandler = createNiceGetSamlResponseHandler();
         Map<String, String> response = getSamlResponseHandler.handleRequest(
                 setupHandlerInput("resx-sandbox", "1234", EMAIL, "[resx-sandbox]"), null);
 
@@ -75,7 +79,7 @@ public class GetSamlResponseHandlerTest {
     @DisplayName("Still gets a SUCCESS response with a SAMLResponse in the output when 'duration' uses the default")
     void testSuccessWithDefaultDuration() {
         setupNiceGroupDescriptionExtractor();
-        GetSamlResponseHandler getSamlResponseHandler = new GetSamlResponseHandler();
+        GetSamlResponseHandler getSamlResponseHandler = createNiceGetSamlResponseHandler();
         Map<String, String> response = getSamlResponseHandler.handleRequest(
                 setupHandlerInput("resx-sandbox", null, EMAIL, "[resx-sandbox]"), null);
 
@@ -93,7 +97,7 @@ public class GetSamlResponseHandlerTest {
     @MethodSource
     @DisplayName("Returns INPUT_ERROR with no SAMLResponse and an Error if groupName is null or blank")
     void testBadGroupName(String groupName) {
-        GetSamlResponseHandler getSamlResponseHandler = new GetSamlResponseHandler();
+        GetSamlResponseHandler getSamlResponseHandler = createNiceGetSamlResponseHandler();
         Map<String, String> response = getSamlResponseHandler.handleRequest(
                 setupHandlerInput(groupName, null, EMAIL, "[resx-sandbox]"), null);
 
@@ -109,7 +113,7 @@ public class GetSamlResponseHandlerTest {
     @ValueSource(strings = { "-1", "1", "", "apple", "899", "43201" })
     @DisplayName("Returns INPUT_ERROR with no SAMLResponse and an Error if duration is invalid")
     void testBadDuration(String duration) {
-        GetSamlResponseHandler getSamlResponseHandler = new GetSamlResponseHandler();
+        GetSamlResponseHandler getSamlResponseHandler = createNiceGetSamlResponseHandler();
         Map<String, String> response = getSamlResponseHandler.handleRequest(
                 setupHandlerInput("resx-sandbox", duration, EMAIL, "[resx-sandbox]"), null);
 
@@ -128,7 +132,7 @@ public class GetSamlResponseHandlerTest {
     @MethodSource
     @DisplayName("Returns INPUT_ERROR with no SAMLResponse and an Error if Email is null or blank")
     void testBadEmail(String email) {
-        GetSamlResponseHandler getSamlResponseHandler = new GetSamlResponseHandler();
+        GetSamlResponseHandler getSamlResponseHandler = createNiceGetSamlResponseHandler();
         Map<String, String> response = getSamlResponseHandler.handleRequest(
                 setupHandlerInput("resx-sandbox", null, email, "[resx-sandbox]"), null);
 
@@ -143,7 +147,7 @@ public class GetSamlResponseHandlerTest {
     @Test
     @DisplayName("Returns INPUT_ERROR with no SAMLResponse and an Error if groupName is not in the user's groups")
     void testNonConfiguredGroup() {
-        GetSamlResponseHandler getSamlResponseHandler = new GetSamlResponseHandler();
+        GetSamlResponseHandler getSamlResponseHandler = createNiceGetSamlResponseHandler();
         Map<String, String> response = getSamlResponseHandler.handleRequest(
                 setupHandlerInput("resx-sandbox", null, EMAIL, "[group1 group2]"), null);
 
@@ -161,7 +165,7 @@ public class GetSamlResponseHandlerTest {
         EXTRACTOR_MOCKER
                 .when(() -> CognitoGroupDescriptionMetadataExtractor.extract(anyString(), anyString(), anyString()))
                 .thenThrow(new RuntimeException("Outlook not so good"));
-        GetSamlResponseHandler getSamlResponseHandler = new GetSamlResponseHandler();
+        GetSamlResponseHandler getSamlResponseHandler = createNiceGetSamlResponseHandler();
 
         Map<String, String> response = getSamlResponseHandler.handleRequest(
                 setupHandlerInput("resx-sandbox", null, EMAIL, "[resx-sandbox]"), null);
@@ -202,5 +206,24 @@ public class GetSamlResponseHandlerTest {
         EXTRACTOR_MOCKER
                 .when(() -> CognitoGroupDescriptionMetadataExtractor.extract(anyString(), anyString(), anyString()))
                 .thenReturn(new CognitoGroupDescriptionMetadata("https://test.com", "specialrole"));
+    }
+
+    private static class MockSsmClient implements SsmClient {
+        @Override
+        public String serviceName() { return "MockService"; }
+        @Override
+        public void close() {}
+        @Override
+        public GetParameterResponse getParameter(GetParameterRequest getParameterRequest) {
+            return GetParameterResponse.builder()
+                    .parameter(Parameter.builder().name(getParameterRequest.name()).value("123").build())
+                    .build();
+        }
+    }
+
+    private GetSamlResponseHandler createNiceGetSamlResponseHandler() {
+        GetSamlResponseHandler handler =  new GetSamlResponseHandler();
+        handler.setSsmClient(new MockSsmClient());
+        return handler;
     }
 }

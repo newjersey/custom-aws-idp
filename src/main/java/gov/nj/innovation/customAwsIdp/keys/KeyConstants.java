@@ -1,13 +1,15 @@
 package gov.nj.innovation.customAwsIdp.keys;
 
+import gov.nj.innovation.customAwsIdp.util.SsmClientWrapper;
 import org.bouncycastle.asn1.x500.X500Name;
+import software.amazon.awssdk.services.ssm.SsmClient;
 
 import java.math.BigInteger;
 import java.util.Date;
 
 /**
  * Store the constants needed for generating keys; some which are public, and some which are secrets populated from
- * environment variables.
+ * environment variables and SSM.
  *
  * @author Case Walker (case@innovation.nj.gov)
  */
@@ -38,27 +40,30 @@ public record KeyConstants(
                     "99768495627357285435626145610679202888676240909221166688413303345247117760811"
     );
     private static final BigInteger KEY_PUBLIC_EXPONENT = new BigInteger("65537");
-    private static final String KEY_PRIVATE_EXPONENT_STR = System.getenv("KEY_PRIVATE_EXPONENT");
-    private static final String KEY_PRIME_P_STR = System.getenv("KEY_PRIME_P");
-    private static final String KEY_PRIME_Q_STR = System.getenv("KEY_PRIME_Q");
-    private static final String KEY_PRIME_EXPONENT_P_STR = System.getenv("KEY_PRIME_EXPONENT_P");
-    private static final String KEY_PRIME_EXPONENT_Q_STR = System.getenv("KEY_PRIME_EXPONENT_Q");
-    private static final String KEY_CRT_COEFFICIENT_STR = System.getenv("KEY_CRT_COEFFICIENT");
     private static final X500Name CERT_SUBJECT = new X500Name("CN=AwsConnectStandaloneIdP");
     private static final BigInteger CERT_SERIAL = new BigInteger("1696019667843");
     private static final Date CERT_NOT_BEFORE = new Date(1696019567000L);
     private static final Date CERT_NOT_AFTER = new Date(2011638867000L);
     private static final String JCA_SIGNER_SIGNATURE_ALG = "SHA256WithRSA";
 
-    public KeyConstants() {
-        this(KEY_MODULUS,
+    // Names defined in the environment
+    private static final String KEY_PRIVATE_EXPONENT_NAME = "KEY_PRIVATE_EXPONENT_NAME";
+    private static final String KEY_PRIME_P_NAME = "KEY_PRIME_P_NAME";
+    private static final String KEY_PRIME_Q_NAME = "KEY_PRIME_Q_NAME";
+    private static final String KEY_PRIME_EXPONENT_P_NAME = "KEY_PRIME_EXPONENT_P_NAME";
+    private static final String KEY_PRIME_EXPONENT_Q_NAME = "KEY_PRIME_EXPONENT_Q_NAME";
+    private static final String KEY_CRT_COEFFICIENT_NAME = "KEY_CRT_COEFFICIENT_NAME";
+
+    public KeyConstants(final SsmClient ssmClient) {
+        this(
+                KEY_MODULUS,
                 KEY_PUBLIC_EXPONENT,
-                new BigInteger(KEY_PRIVATE_EXPONENT_STR),
-                new BigInteger(KEY_PRIME_P_STR),
-                new BigInteger(KEY_PRIME_Q_STR),
-                new BigInteger(KEY_PRIME_EXPONENT_P_STR),
-                new BigInteger(KEY_PRIME_EXPONENT_Q_STR),
-                new BigInteger(KEY_CRT_COEFFICIENT_STR),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIVATE_EXPONENT_NAME))),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_P_NAME))),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_Q_NAME))),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_EXPONENT_P_NAME))),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_EXPONENT_Q_NAME))),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_CRT_COEFFICIENT_NAME))),
                 CERT_SUBJECT,
                 CERT_SERIAL,
                 CERT_NOT_BEFORE,
