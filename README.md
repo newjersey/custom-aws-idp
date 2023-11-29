@@ -80,7 +80,7 @@ logging in to AWS Connect.
 ## Usage
 
 The Lambda handler is configured to expect and validate a Cognito user from the
-"_us-east-1_jKQHCtx7s_" user pool. All ApiGateway requests must have a valid JWT
+"_us-east-1_AZyvZQdFN_" user pool. All ApiGateway requests must have a valid JWT
 bearer token.
 
 As well, this Cognito integration implicitly depends on Groups inside the user
