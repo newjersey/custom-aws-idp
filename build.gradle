@@ -11,9 +11,10 @@ dependencies {
         // From the Serverless generated code
         'com.amazonaws:aws-lambda-java-core:1.2.3',
         'com.amazonaws:aws-lambda-java-log4j:1.0.1',
-        // For getting the Cognito UserPool Group Description and reading YAML
-        'software.amazon.awssdk:cognitoidentityprovider:2.20.161',
+        // For getting the Cognito UserPool Group Description, reading YAML, and accessing SSM
+        'software.amazon.awssdk:cognitoidentityprovider:2.21.29',
         'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2',
+        'software.amazon.awssdk:ssm:2.21.29',
         // For SAML generation, from Keycloak
         'org.keycloak:keycloak-saml-core:22.0.4',
         'org.keycloak:keycloak-adapter-core:22.0.4',
@@ -33,12 +34,12 @@ dependencies {
 test {
     environment([
         // Provide env vars for KeyConstants + testing odds and ends
-        "KEY_PRIVATE_EXPONENT": "123",
-        "KEY_PRIME_P": "123",
-        "KEY_PRIME_Q": "123",
-        "KEY_PRIME_EXPONENT_P": "123",
-        "KEY_PRIME_EXPONENT_Q": "123",
-        "KEY_CRT_COEFFICIENT": "123",
+        "KEY_PRIVATE_EXPONENT_NAME": "custom-aws-idp-private-key-private-exponent",
+        "KEY_PRIME_P_NAME": "custom-aws-idp-private-key-prime-p",
+        "KEY_PRIME_Q_NAME": "custom-aws-idp-private-key-prime-q",
+        "KEY_PRIME_EXPONENT_P_NAME": "custom-aws-idp-private-key-prime-exponent-p",
+        "KEY_PRIME_EXPONENT_Q_NAME": "custom-aws-idp-private-key-prime-exponent-q",
+        "KEY_CRT_COEFFICIENT_NAME": "custom-aws-idp-private-key-crt-coefficient",
         "COGNITO_REGION": "us-east-1",
         "COGNITO_USER_POOL": "myPoolOfCoolUsers",
         "DEFAULT_SESSION_DURATION": 900,

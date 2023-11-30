@@ -10,12 +10,12 @@ provider:
     COGNITO_APP_CLIENT_ID: "7i01fral9t0fdtodp78hi3vqrh"
     PATH_PARAMETER_GROUP_NAME: "groupName"
     # Get all secret key details from SSM
-    KEY_PRIVATE_EXPONENT: ${ssm:custom-aws-idp-private-key-private-exponent}
-    KEY_PRIME_P: ${ssm:custom-aws-idp-private-key-prime-p}
-    KEY_PRIME_Q: ${ssm:custom-aws-idp-private-key-prime-q}
-    KEY_PRIME_EXPONENT_P: ${ssm:custom-aws-idp-private-key-prime-exponent-p}
-    KEY_PRIME_EXPONENT_Q: ${ssm:custom-aws-idp-private-key-prime-exponent-q}
-    KEY_CRT_COEFFICIENT: ${ssm:custom-aws-idp-private-key-crt-coefficient}
+    KEY_PRIVATE_EXPONENT_NAME: "custom-aws-idp-private-key-private-exponent"
+    KEY_PRIME_P_NAME: "custom-aws-idp-private-key-prime-p"
+    KEY_PRIME_Q_NAME: "custom-aws-idp-private-key-prime-q"
+    KEY_PRIME_EXPONENT_P_NAME: "custom-aws-idp-private-key-prime-exponent-p"
+    KEY_PRIME_EXPONENT_Q_NAME: "custom-aws-idp-private-key-prime-exponent-q"
+    KEY_CRT_COEFFICIENT_NAME: "custom-aws-idp-private-key-crt-coefficient"
     # Set a default session duration of 1 hour
     DEFAULT_SESSION_DURATION: 3600
   httpApi:
@@ -32,6 +32,15 @@ provider:
         - Effect: Allow
           Action: [ cognito-idp:GetGroup ]
           Resource: "arn:aws:cognito-idp:us-east-1:274460373520:userpool/${self:provider.environment.COGNITO_USER_POOL}"
+        - Effect: Allow
+          Action: [ ssm:GetParameter, ssm:GetParameters ]
+          Resource:
+            - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_PRIVATE_EXPONENT_NAME}"
+            - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_PRIME_P_NAME}"
+            - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_PRIME_Q_NAME}"
+            - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_PRIME_EXPONENT_P_NAME}"
+            - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_PRIME_EXPONENT_Q_NAME}"
+            - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_CRT_COEFFICIENT_NAME}"
 
 package:
   artifact: build/distributions/customIdp.zip
