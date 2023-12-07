@@ -9,26 +9,26 @@ repositories {
 dependencies {
     api(
         // From the Serverless generated code
-        'com.amazonaws:aws-lambda-java-core:1.2.3',
-        'com.amazonaws:aws-lambda-java-log4j:1.0.1',
+        libs.comAmazonaws.awsLambdaJavaCore,
+        libs.comAmazonaws.awsLambdaJavaLog4j,
         // For getting the Cognito UserPool Group Description, reading YAML, and accessing SSM
-        'software.amazon.awssdk:cognitoidentityprovider:2.21.29',
-        'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2',
-        'software.amazon.awssdk:ssm:2.21.29',
+        libs.softwareAmazonAwssdk.cognitoidentityprovider,
+        libs.comFasterxmlJacksonDataformat.jacksonDataformatYaml,
+        libs.softwareAmazonAwssdk.ssm,
         // For SAML generation, from Keycloak
-        'org.keycloak:keycloak-saml-core:22.0.4',
-        'org.keycloak:keycloak-adapter-core:22.0.4',
-        'org.keycloak:keycloak-services:22.0.4',
+        libs.orgKecloak.keycloakSamlCore,
+        libs.orgKecloak.keycloakAdapterCore,
+        libs.orgKecloak.keycloakServices,
         // Logging provider
-        'org.slf4j:slf4j-reload4j:2.0.9'
+        libs.orgSlf4j.slf4jReload4j
     )
     testImplementation(
-        'org.junit.jupiter:junit-jupiter-api:5.10.0',
-        'org.junit.jupiter:junit-jupiter-params:5.10.0',
-        'uk.org.webcompere:system-stubs-jupiter:2.1.3',
-        'org.mockito:mockito-core:5.6.0'
+        libs.orgJunitJupiter.junitJupiterApi,
+        libs.orgJunitJupiter.junitJupiterParams,
+        libs.ukOrgWebcompare.systemStubsJupiter,
+        libs.orgMockito.mockitoCore
     )
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testRuntimeOnly libs.orgJunitJupiter.junitJupiterEngine
 }
 
 test {
