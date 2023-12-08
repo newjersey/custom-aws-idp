@@ -1,7 +1,7 @@
 [versions]
 keycloakVersion = "22.0.4"
 amazonSoftwareVersion = "2.21.40"
-junitJupiterVersion = "5.10.0"
+junitJupiterVersion = "5.10.1"
 
 [libraries]
 comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.2.3"
