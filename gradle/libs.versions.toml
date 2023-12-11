@@ -1,6 +1,6 @@
 [versions]
 keycloakVersion = "22.0.5"
-amazonSoftwareVersion = "2.21.41"
+amazonSoftwareVersion = "2.21.42"
 junitJupiterVersion = "5.10.1"
 
 [libraries]
