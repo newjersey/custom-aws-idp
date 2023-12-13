@@ -1,0 +1,22 @@
+name: Dependency Submission API calls for Dependabot
+on:
+  push:
+    branches:
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Dependencies
+    runs-on: ubuntu-latest
+    permissions: # The Dependency Submission API requires write permission
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      - name: Submit dependencies
+        uses: mikepenz/gradle-dependency-submission@v0.9.1
+        with:
+          use-gradlew: true
+          gradle-build-module: ":app"
