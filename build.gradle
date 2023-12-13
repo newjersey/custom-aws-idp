@@ -10,7 +10,6 @@ dependencies {
     api(
         // From the Serverless generated code
         libs.comAmazonaws.awsLambdaJavaCore,
-        libs.comAmazonaws.awsLambdaJavaLog4j,
         // For getting the Cognito UserPool Group Description, reading YAML, and accessing SSM
         libs.softwareAmazonAwssdk.cognitoidentityprovider,
         libs.comFasterxmlJacksonDataformat.jacksonDataformatYaml,
@@ -19,9 +18,13 @@ dependencies {
         libs.orgKecloak.keycloakSamlCore,
         libs.orgKecloak.keycloakAdapterCore,
         libs.orgKecloak.keycloakServices,
-        // Logging provider
-        libs.orgSlf4j.slf4jReload4j
     )
+    implementation(
+        libs.orgApacheLoggingLog4j.log4jSlf4j2Impl,
+        libs.orgApacheLoggingLog4j.log4jCore,
+        libs.orgApacheLoggingLog4j.log4jApi
+    )
+    runtimeOnly libs.comAmazonaws.awsLambdaJavaLog4j2
     testImplementation(
         libs.orgJunitJupiter.junitJupiterApi,
         libs.orgJunitJupiter.junitJupiterParams,
@@ -32,6 +35,7 @@ dependencies {
 }
 
 test {
+    jvmArgs "-Xshare:off"
     environment([
         // Provide env vars for KeyConstants + testing odds and ends
         "KEY_PRIVATE_EXPONENT_NAME": "custom-aws-idp-private-key-private-exponent",

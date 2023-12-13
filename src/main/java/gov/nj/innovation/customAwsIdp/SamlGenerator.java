@@ -3,7 +3,8 @@ package gov.nj.innovation.customAwsIdp;
 import com.google.common.annotations.VisibleForTesting;
 import gov.nj.innovation.customAwsIdp.exception.CustomAwsIdpException;
 import gov.nj.innovation.customAwsIdp.keys.KeysWrapper;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.keycloak.dom.saml.v2.assertion.AssertionType;
 import org.keycloak.dom.saml.v2.assertion.AttributeStatementType;
 import org.keycloak.dom.saml.v2.assertion.AttributeType;
@@ -49,7 +50,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class SamlGenerator {
 
     /* Constants */
-    private static final Logger logger = Logger.getLogger(SamlGenerator.class);
+    private static final Logger logger = LogManager.getLogger(SamlGenerator.class);
     private static final String REDIRECT_URI = "https://signin.aws.amazon.com/saml";
     private static final String ISSUER = "https://innovation.nj.gov/realms/AwsConnectStandaloneIdP";
     private static final String NAME_ID_FORMAT = "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified";
