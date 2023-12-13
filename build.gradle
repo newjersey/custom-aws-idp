@@ -20,11 +20,11 @@ dependencies {
         libs.orgKecloak.keycloakServices,
     )
     implementation(
-        'org.apache.logging.log4j:log4j-slf4j2-impl:2.22.0',
-        'org.apache.logging.log4j:log4j-core:2.22.0',
-        'org.apache.logging.log4j:log4j-api:2.22.0'
+        libs.orgApacheLoggingLog4j.log4jSlf4j2Impl,
+        libs.orgApacheLoggingLog4j.log4jCore,
+        libs.orgApacheLoggingLog4j.log4jApi
     )
-    runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.6.0'
+    runtimeOnly libs.comAmazonaws.awsLambdaJavaLog4j2
     testImplementation(
         libs.orgJunitJupiter.junitJupiterApi,
         libs.orgJunitJupiter.junitJupiterParams,
