@@ -19,4 +19,3 @@ jobs:
         uses: mikepenz/gradle-dependency-submission@v0.9.1
         with:
           use-gradlew: true
-          gradle-build-module: ":app"
