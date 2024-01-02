@@ -2,7 +2,7 @@
 keycloakVersion = "23.0.3"
 amazonSoftwareVersion = "2.22.9"
 junitJupiterVersion = "5.10.1"
-apacheLoggingVersion = "2.22.0"
+apacheLoggingVersion = "2.22.1"
 
 [libraries]
 comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.2.3"
