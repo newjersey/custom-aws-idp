@@ -31,3 +31,5 @@ jobs:
         with:
           arguments: build
           dependency-graph: generate-and-submit
+    permissions:
+      contents: write
