@@ -6,7 +6,7 @@ package gov.nj.innovation.customAwsIdp.exception;
  * @author Case Walker (case@innovation.nj.gov)
  */
 public class CustomAwsIdpException extends RuntimeException {
-    public CustomAwsIdpException(String errorMessage, Throwable err) {
+    public CustomAwsIdpException(final String errorMessage, final Throwable err) {
         super(errorMessage, err);
     }
 }

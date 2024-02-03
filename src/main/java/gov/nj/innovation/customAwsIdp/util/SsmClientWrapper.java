@@ -18,11 +18,11 @@ public class SsmClientWrapper {
      * @return The SSM parameter value.
      */
     public static String getParameterByName(final SsmClient ssmClient, final String parameterName) {
-        GetParameterRequest request = GetParameterRequest.builder()
+        final GetParameterRequest request = GetParameterRequest.builder()
                 .name(parameterName)
                 .withDecryption(true)
                 .build();
-        GetParameterResponse response = ssmClient.getParameter(request);
+        final GetParameterResponse response = ssmClient.getParameter(request);
 
         return response.parameter().value();
     }

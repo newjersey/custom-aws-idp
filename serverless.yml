@@ -33,7 +33,7 @@ provider:
           Action: [ cognito-idp:GetGroup ]
           Resource: "arn:aws:cognito-idp:us-east-1:274460373520:userpool/${self:provider.environment.COGNITO_USER_POOL}"
         - Effect: Allow
-          Action: [ ssm:GetParameter, ssm:GetParameters ]
+          Action: [ ssm:GetParameter ]
           Resource:
             - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_PRIVATE_EXPONENT_NAME}"
             - "arn:aws:ssm:us-east-1:274460373520:parameter/${self:provider.environment.KEY_PRIME_P_NAME}"

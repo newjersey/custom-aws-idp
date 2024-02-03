@@ -6,7 +6,7 @@ package gov.nj.innovation.customAwsIdp.exception;
  * @author Case Walker (case@innovation.nj.gov)
  */
 public class KeyGenerationException extends CustomAwsIdpException {
-    public KeyGenerationException(String errorMessage, Throwable err) {
+    public KeyGenerationException(final String errorMessage, final Throwable err) {
         super(errorMessage, err);
     }
 }

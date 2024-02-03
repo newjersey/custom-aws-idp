@@ -79,12 +79,13 @@ public class GetSamlResponseHandler implements RequestHandler<Map<String, Object
     private static final String EMAIL_CLAIM = "email";
     private static final String COGNITO_GROUPS_CLAIM = "cognito:groups";
 
+    // Left open on purpose for testing
     private SsmClient ssmClient = SsmClient.builder()
             .region(Region.of(System.getenv("COGNITO_REGION")))
             .build();
 
     @Override
-    public Map<String, String> handleRequest(Map<String, Object> input, Context context) {
+    public Map<String, String> handleRequest(final Map<String, Object> input, final Context context) {
         final RequestParameters rp = extractRequestParametersFromInput(input);
         if (rp.groupName() == null || rp.groupName().isBlank()) {
             return createErrorReturnMap(Status.INPUT_ERROR,
