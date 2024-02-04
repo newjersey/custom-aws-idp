@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
+import java.util.stream.Collectors;
 
 import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.CERT_NOT_AFTER;
 import static gov.nj.innovation.customAwsIdp.TestUtils.TestKeyDetails.CERT_NOT_BEFORE;
@@ -128,7 +129,11 @@ public class SamlGeneratorTest {
     }
 
     private String readAndEncodeExpectedSignedSaml() throws IOException {
-        String plaintext = Files.readAllLines(Path.of(VALIDATED_SAML_RESPONSE_FILEPATH), StandardCharsets.UTF_8).get(0);
+        String plaintext = Files.readAllLines(Path.of(VALIDATED_SAML_RESPONSE_FILEPATH), StandardCharsets.UTF_8)
+                .stream()
+                .map(line -> line.replaceAll("^\\s*", ""))
+                .map(line -> line.replaceAll("\\n", ""))
+                .collect(Collectors.joining());
         return Base64.getEncoder().encodeToString(plaintext.getBytes());
     }
 }
