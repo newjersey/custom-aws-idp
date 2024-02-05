@@ -19,7 +19,7 @@ import software.amazon.awssdk.services.cognitoidentityprovider.model.GetGroupRes
 public class CognitoGroupDescriptionMetadataExtractor {
 
     private static final Logger logger = LogManager.getLogger(CognitoGroupDescriptionMetadataExtractor.class);
-    final static ObjectMapper MAPPER = new ObjectMapper(new YAMLFactory());
+    private static final ObjectMapper MAPPER = new ObjectMapper(new YAMLFactory());
 
     /**
      * Perform the YAML metadata extraction from a Cognito Group's description.

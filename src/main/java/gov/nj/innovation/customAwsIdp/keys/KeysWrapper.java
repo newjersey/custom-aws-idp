@@ -31,11 +31,12 @@ public class KeysWrapper {
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
     private final X509Certificate x509Certificate;
+    private static final String KEY_FACTORY_ALG = "RSA";
 
     public KeysWrapper(final KeyConstants keyConstants) {
         final KeyFactory keyFactory;
         try {
-            keyFactory = KeyFactory.getInstance("RSA");
+            keyFactory = KeyFactory.getInstance(KEY_FACTORY_ALG);
         } catch (NoSuchAlgorithmException e) {
             throw new KeyGenerationException("Could not get key factory instance: " + e.getMessage(), e);
         }
@@ -64,7 +65,7 @@ public class KeysWrapper {
             throw new KeyGenerationException("Could not construct private key: " + e.getMessage(), e);
         }
 
-        X509v3CertificateBuilder certificateBuilder = new X509v3CertificateBuilder(
+        final X509v3CertificateBuilder certificateBuilder = new X509v3CertificateBuilder(
                 keyConstants.certSubject(),
                 keyConstants.certSerial(),
                 keyConstants.certNotBefore(),
