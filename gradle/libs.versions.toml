@@ -7,7 +7,7 @@ apacheLoggingVersion = "2.23.0"
 [libraries]
 comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.2.3"
 softwareAmazonAwssdk-cognitoidentityprovider = { group = "software.amazon.awssdk", name = "cognitoidentityprovider", version.ref = "amazonSoftwareVersion" }
-comFasterxmlJacksonDataformat-jacksonDataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.16.1"
+comFasterxmlJacksonDataformat-jacksonDataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.17.0"
 softwareAmazonAwssdk-ssm = { group = "software.amazon.awssdk", name = "ssm", version.ref = "amazonSoftwareVersion" }
 orgKecloak-keycloakSamlCore = { group = "org.keycloak", name = "keycloak-saml-core", version.ref = "keycloakVersion" }
 orgKecloak-keycloakAdapterCore = { group = "org.keycloak", name = "keycloak-adapter-core", version.ref = "keycloakVersion" }
