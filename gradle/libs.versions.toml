@@ -16,8 +16,9 @@ orgApacheLoggingLog4j-log4jSlf4j2Impl = { group = "org.apache.logging.log4j", na
 orgApacheLoggingLog4j-log4jCore = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "apacheLoggingVersion" }
 orgApacheLoggingLog4j-log4jApi = { group = "org.apache.logging.log4j", name = "log4j-api", version.ref = "apacheLoggingVersion" }
 comAmazonaws-awsLambdaJavaLog4j2 = "com.amazonaws:aws-lambda-java-log4j2:1.6.0"
+orgJunitJupiter-junitJupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiterVersion" }
 orgJunitJupiter-junitJupiterApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitJupiterVersion" }
 orgJunitJupiter-junitJupiterParams = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiterVersion" }
 ukOrgWebcompare-systemStubsJupiter = "uk.org.webcompere:system-stubs-jupiter:2.1.6"
 orgMockito-mockitoCore = "org.mockito:mockito-core:5.11.0"
-orgJunitJupiter-junitJupiterEngine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitJupiterVersion" }
+orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:1.11.0-M2"

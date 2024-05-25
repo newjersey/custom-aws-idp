@@ -26,12 +26,13 @@ dependencies {
     )
     runtimeOnly libs.comAmazonaws.awsLambdaJavaLog4j2
     testImplementation(
+        libs.orgJunitJupiter.junitJupiter,
         libs.orgJunitJupiter.junitJupiterApi,
         libs.orgJunitJupiter.junitJupiterParams,
         libs.ukOrgWebcompare.systemStubsJupiter,
         libs.orgMockito.mockitoCore
     )
-    testRuntimeOnly libs.orgJunitJupiter.junitJupiterEngine
+    testRuntimeOnly libs.orgJunitPlatform.junitPlatformLauncher
 }
 
 test {
@@ -53,7 +54,7 @@ test {
 }
 
 // Task for building the zip file for upload
-task buildZip(type: Zip) {
+tasks.register('buildZip', Zip) {
     // Using the Zip API from gradle to build a zip file of all the dependencies
     //
     // The path to this zip file can be set in the serverless.yml file for the
@@ -71,5 +72,8 @@ task buildZip(type: Zip) {
 }
 
 build.dependsOn buildZip
-sourceCompatibility = JavaVersion.VERSION_16
-targetCompatibility = JavaVersion.VERSION_16
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
+}
