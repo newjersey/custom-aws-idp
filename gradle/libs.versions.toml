@@ -1,7 +1,7 @@
 [versions]
 keycloakVersion = "24.0.4"
 amazonSoftwareVersion = "2.25.49"
-junitJupiterVersion = "5.10.2"
+junitJupiterVersion = "5.10.3"
 apacheLoggingVersion = "2.23.1"
 
 [libraries]
