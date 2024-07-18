@@ -1,10 +1,10 @@
 package gov.nj.innovation.customAwsIdp;
 
-import com.google.common.annotations.VisibleForTesting;
 import gov.nj.innovation.customAwsIdp.exception.CustomAwsIdpException;
 import gov.nj.innovation.customAwsIdp.keys.KeysWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.VisibleForTesting;
 import org.keycloak.dom.saml.v2.assertion.AssertionType;
 import org.keycloak.dom.saml.v2.assertion.AttributeStatementType;
 import org.keycloak.dom.saml.v2.assertion.AttributeType;
