@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import com.google.common.annotations.VisibleForTesting;
 import gov.nj.innovation.customAwsIdp.keys.KeyConstants;
 import gov.nj.innovation.customAwsIdp.keys.KeysWrapper;
 import gov.nj.innovation.customAwsIdp.SamlGenerator;
@@ -17,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import org.jetbrains.annotations.VisibleForTesting;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ssm.SsmClient;
 

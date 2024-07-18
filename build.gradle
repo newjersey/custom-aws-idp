@@ -16,13 +16,15 @@ dependencies {
         libs.softwareAmazonAwssdk.ssm,
         // For SAML generation, from Keycloak
         libs.orgKecloak.keycloakSamlCore,
-        libs.orgKecloak.keycloakAdapterCore,
         libs.orgKecloak.keycloakServices,
+        libs.orgBouncycastle.bcprovJdk18on,
+        libs.orgBouncycastle.bcpkixJdk18on
     )
     implementation(
         libs.orgApacheLoggingLog4j.log4jSlf4j2Impl,
         libs.orgApacheLoggingLog4j.log4jCore,
-        libs.orgApacheLoggingLog4j.log4jApi
+        libs.orgApacheLoggingLog4j.log4jApi,
+        libs.orgJetbrains.annotations
     )
     runtimeOnly libs.comAmazonaws.awsLambdaJavaLog4j2
     testImplementation(
@@ -74,6 +76,6 @@ tasks.register('buildZip', Zip) {
 build.dependsOn buildZip
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
