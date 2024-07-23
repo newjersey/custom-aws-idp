@@ -67,7 +67,6 @@ public class GetSamlResponseHandler implements RequestHandler<Map<String, Object
     private static final String REGION = System.getenv("COGNITO_REGION");
     private static final String USER_POOL = System.getenv("COGNITO_USER_POOL");
     private static final Pattern DIGITS_PATTERN = Pattern.compile("\\d+");
-
     private static final String INPUT_PATH_PARAMETERS = "pathParameters";
     private static final String PATH_PARAMETER_GROUP_NAME = System.getenv("PATH_PARAMETER_GROUP_NAME");
     private static final String INPUT_QUERY_STRING_PARAMETERS = "queryStringParameters";
@@ -80,9 +79,8 @@ public class GetSamlResponseHandler implements RequestHandler<Map<String, Object
     private static final String COGNITO_GROUPS_CLAIM = "cognito:groups";
 
     // Left open on purpose for testing
-    private SsmClient ssmClient = SsmClient.builder()
-            .region(Region.of(System.getenv("COGNITO_REGION")))
-            .build();
+    @VisibleForTesting
+    private SsmClient ssmClient = SsmClient.builder().region(Region.of(REGION)).build();
 
     @Override
     public Map<String, String> handleRequest(final Map<String, Object> input, final Context context) {

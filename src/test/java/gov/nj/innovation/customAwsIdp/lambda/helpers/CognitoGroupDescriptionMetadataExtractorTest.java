@@ -93,18 +93,17 @@ public class CognitoGroupDescriptionMetadataExtractorTest {
                 String.format("YAML parser should throw on input: %s", yamlDescription));
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void setupUglyMockingAndInjectGroupDescription(String description) {
         CognitoIdentityProviderClient client = mock(CognitoIdentityProviderClient.class);
         CognitoIdentityProviderClientBuilder builder = mock(CognitoIdentityProviderClientBuilder.class);
         GetGroupResponse groupResponse = mock(GetGroupResponse.class);
         GroupType group = mock(GroupType.class);
+
         CLIENT_MOCKER.when(CognitoIdentityProviderClient::builder).thenReturn(builder);
         when(builder.region(any())).thenReturn(builder);
         when(builder.build()).thenReturn(client);
         when(client.getGroup(any(GetGroupRequest.class))).thenReturn(groupResponse);
         when(groupResponse.group()).thenReturn(group);
-
         when(group.description()).thenReturn(description);
     }
 }

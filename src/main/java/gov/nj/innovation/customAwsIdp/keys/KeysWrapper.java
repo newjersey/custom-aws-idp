@@ -28,10 +28,10 @@ import java.security.spec.RSAPublicKeySpec;
  */
 public class KeysWrapper {
 
+    private static final String KEY_FACTORY_ALG = "RSA";
     private final PublicKey publicKey;
     private final PrivateKey privateKey;
     private final X509Certificate x509Certificate;
-    private static final String KEY_FACTORY_ALG = "RSA";
 
     public KeysWrapper(final KeyConstants keyConstants) {
         final KeyFactory keyFactory;
