@@ -8,8 +8,6 @@ repositories {
 
 dependencies {
     api(
-        // From the Serverless generated code
-        libs.comAmazonaws.awsLambdaJavaCore,
         // For getting the Cognito UserPool Group Description, reading YAML, and accessing SSM
         libs.softwareAmazonAwssdk.cognitoidentityprovider,
         libs.comFasterxmlJacksonDataformat.jacksonDataformatYaml,
@@ -21,6 +19,9 @@ dependencies {
         libs.orgBouncycastle.bcpkixJdk18on
     )
     implementation(
+        // From the Serverless generated code
+        libs.comAmazonaws.awsLambdaJavaCore,
+        libs.comAmazonaws.awsLambdaJavaEvents,
         libs.orgApacheLoggingLog4j.log4jSlf4j2Impl,
         libs.orgApacheLoggingLog4j.log4jCore,
         libs.orgApacheLoggingLog4j.log4jApi,

@@ -1,5 +1,6 @@
 package gov.nj.innovation.customAwsIdp.lambda;
 
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import gov.nj.innovation.customAwsIdp.lambda.helpers.CognitoGroupDescriptionMetadataExtractor;
 import gov.nj.innovation.customAwsIdp.lambda.helpers.data.CognitoGroupDescriptionMetadata;
 import org.junit.jupiter.api.AfterAll;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent.ProxyRequestContext;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
@@ -181,13 +183,13 @@ public class GetSamlResponseHandlerTest {
     /**
      * Create the input map following the layout described in the {@link GetSamlResponseHandler} class.
      */
-    private Map<String, Object> setupHandlerInput(String groupName, String duration, String email, String groups) {
-        Map<String, Object> input = new HashMap<>();
+    private APIGatewayProxyRequestEvent setupHandlerInput(String groupName, String duration, String email, String groups) {
+        APIGatewayProxyRequestEvent input = new APIGatewayProxyRequestEvent();
         Map<String, String> pathParams = new HashMap<>();
         pathParams.put("groupName", groupName);
-        input.put("pathParameters", pathParams);
+        input.setPathParameters(pathParams);
         if (duration != null) {
-            input.put("queryStringParameters", Map.of("duration", duration));
+            input.setQueryStringParameters(Map.of("duration", duration));
         }
 
         Map<String, String> claims = new HashMap<>();
@@ -197,7 +199,9 @@ public class GetSamlResponseHandlerTest {
         if (groups != null) {
             claims.put("cognito:groups", groups);
         }
-        input.put("requestContext", Map.of("authorizer", Map.of("jwt", Map.of("claims", claims))));
+        ProxyRequestContext requestContext = new ProxyRequestContext();
+        requestContext.setAuthorizer(Map.of("jwt", Map.of("claims", claims)));
+        input.setRequestContext(requestContext);
 
         return input;
     }
