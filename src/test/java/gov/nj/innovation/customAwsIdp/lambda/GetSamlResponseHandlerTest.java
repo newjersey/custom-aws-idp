@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent.ProxyRequestContext;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mockStatic;
 
@@ -198,9 +199,9 @@ public class GetSamlResponseHandlerTest {
         if (groups != null) {
             claims.put("cognito:groups", groups);
         }
-        APIGatewayProxyRequestEvent.ProxyRequestContext rc = new APIGatewayProxyRequestEvent.ProxyRequestContext();
-        rc.setAuthorizer(Map.of("jwt", Map.of("claims", claims)));
-        input.setRequestContext(rc);
+        ProxyRequestContext requestContext = new ProxyRequestContext();
+        requestContext.setAuthorizer(Map.of("jwt", Map.of("claims", claims)));
+        input.setRequestContext(requestContext);
 
         return input;
     }
