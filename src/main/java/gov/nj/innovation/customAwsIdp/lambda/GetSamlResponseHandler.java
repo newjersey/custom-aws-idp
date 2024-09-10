@@ -51,7 +51,8 @@ import static com.amazonaws.services.lambda.runtime.events.APIGatewayProxyReques
  * </pre>
  *
  * This shape seems to be most aligned with {@link APIGatewayProxyRequestEvent}, but unfortunately everything inside the
- * <code>authorizer</code> object is just a <code>Map</code> of <code>String</code> to <code>Object</code>.
+ * <code>authorizer</code> object is just a <code>Map</code> of <code>String</code> to <code>Object</code>, so obnoxious
+ * casting must be done inside.
  * <p>
  * For security, the "user" passed to {@link SamlGenerator#SamlGenerator(String, String, String, KeysWrapper)} will be
  * sourced exclusively from the JWT claim "email", and the "groupName" passed in the pathParameters will be validated
@@ -77,7 +78,7 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
     private static final String EMAIL_CLAIM = "email";
     private static final String COGNITO_GROUPS_CLAIM = "cognito:groups";
 
-    // Left open on purpose for testing
+    // Left open (not final) on purpose for testing
     @VisibleForTesting
     private SsmClient ssmClient = SsmClient.builder().region(Region.of(REGION)).build();
 
