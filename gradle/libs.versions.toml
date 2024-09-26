@@ -22,7 +22,7 @@ comAmazonaws-awsLambdaJavaLog4j2 = "com.amazonaws:aws-lambda-java-log4j2:1.6.0"
 orgJunitJupiter-junitJupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiterVersion" }
 orgJunitJupiter-junitJupiterApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitJupiterVersion" }
 orgJunitJupiter-junitJupiterParams = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiterVersion" }
-ukOrgWebcompare-systemStubsJupiter = "uk.org.webcompere:system-stubs-jupiter:2.1.6"
+ukOrgWebcompare-systemStubsJupiter = "uk.org.webcompere:system-stubs-jupiter:2.1.7"
 orgMockito-mockitoCore = "org.mockito:mockito-core:5.13.0"
 orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:1.11.0"
 orgJetbrains-annotations = "org.jetbrains:annotations:24.1.0"
