@@ -29,7 +29,10 @@ public class CognitoGroupDescriptionMetadataExtractor {
      * @param userPoolId ID of the UserPool to which the Group belongs
      * @return {@link CognitoGroupDescriptionMetadata} representing the parsed YAML from the Group description.
      */
-    public static CognitoGroupDescriptionMetadata extract(String region, String groupName, String userPoolId) {
+    public static CognitoGroupDescriptionMetadata extract(
+            final String region,
+            final String groupName,
+            final String userPoolId) {
         try (final CognitoIdentityProviderClient cognitoClient = CognitoIdentityProviderClient.builder()
                 .region(Region.of(region))
                 .build()) {
@@ -41,11 +44,11 @@ public class CognitoGroupDescriptionMetadataExtractor {
             final CognitoGroupDescriptionMetadata groupDescriptionMetadata =
                     MAPPER.readValue(groupDescription, CognitoGroupDescriptionMetadata.class);
 
-            logger.info(String.format(
-                    "Successfully fetched and parsed group description for userPoolId %s and groupName %s",
-                    userPoolId, groupName));
+            logger.info("Successfully fetched and parsed group description for userPoolId {} and groupName {}",
+                    userPoolId,
+                    groupName);
             return groupDescriptionMetadata;
-        } catch (RuntimeException | JsonProcessingException e) {
+        } catch (final RuntimeException | JsonProcessingException e) {
             final String errorMessage = String.format(
                     "Exception while trying to connect to/query Cognito for a group description, " +
                             "or while parsing YAML: %s (input [region: %s, groupName: %s, userPoolId: %s])",

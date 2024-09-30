@@ -14,10 +14,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record CognitoGroupDescriptionMetadata(
-        @JsonAlias({"relayState", "RelayState", "relaystate"})
+        @JsonAlias({"relayState", "RelayState", "RELAYSTATE", "relaystate"})
         @JsonProperty(required = true)
         String relayState,
-        @JsonAlias({"ssoRole", "SsoRole", "SSORole", "ssorole"})
+        @JsonAlias({"ssoRole", "SsoRole", "SSORole", "SSOROLE", "ssorole"})
         @JsonProperty(required = true)
         String ssoRole
 ) {}

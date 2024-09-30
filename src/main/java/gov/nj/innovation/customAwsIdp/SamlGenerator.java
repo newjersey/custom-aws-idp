@@ -145,17 +145,17 @@ public class SamlGenerator {
                     populateAttributeStatements(attributeStatementMappers);
             populateRoles(roleListMapper.get(), attributeStatement);
 
-            if (attributeStatement.getAttributes().size() > 0) {
+            if (!attributeStatement.getAttributes().isEmpty()) {
                 AssertionType assertion = samlModel.getAssertions().get(0).getAssertion();
                 assertion.addStatement(attributeStatement);
             }
-        } catch (ConfigurationException | ProcessingException e) {
+        } catch (final ConfigurationException | ProcessingException e) {
             throw new CustomAwsIdpException("Could not build role/attribute statement(s): " + e.getMessage(), e);
         }
 
         try {
             return builder.buildDocument(samlModel);
-        } catch (ConfigurationException | ProcessingException e) {
+        } catch (final ConfigurationException | ProcessingException e) {
             throw new CustomAwsIdpException("Could not create the document: " + e.getMessage(), e);
         }
     }
@@ -179,9 +179,9 @@ public class SamlGenerator {
             // Go a couple steps further than SamlProtocol#authenticated to make the signed + encoded XML string
             bindingBuilder.postBinding(samlDocument);
             String base64SamlResponse = BaseSAML2BindingBuilder.getSAMLResponse(samlDocument);
-            logger.trace("Generated SAMLResponse for " + user + " with role " + roleName + " for " + duration + " secs");
+            logger.trace("Generated SAMLResponse for {} with role {} for {} secs", user, roleName, duration);
             return base64SamlResponse;
-        } catch (ProcessingException | ConfigurationException | IOException e) {
+        } catch (final ProcessingException | ConfigurationException | IOException e) {
             throw new CustomAwsIdpException("Could not sign the document: " + e.getMessage(), e);
         }
     }

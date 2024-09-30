@@ -108,7 +108,7 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
         final CognitoGroupDescriptionMetadata ssoMetadata;
         try {
             ssoMetadata = CognitoGroupDescriptionMetadataExtractor.extract(REGION, rp.groupName(), USER_POOL);
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             return createErrorReturnMap(Status.SYSTEM_ERROR,
                     String.format("Error trying to extract metadata from Group %s in UserPool %s: %s",
                             rp.groupName(), USER_POOL, e.getMessage()));
@@ -117,7 +117,7 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
         final KeyConstants keyConstants;
         try {
             keyConstants = new KeyConstants(ssmClient);
-        } catch (NullPointerException | NumberFormatException e) {
+        } catch (final NullPointerException | NumberFormatException e) {
             return createErrorReturnMap(Status.SYSTEM_ERROR,
                     String.format("KeyConstants threw an exception: %s.\nNOTE: Please check that the " +
                             "key-secrets are correct in AWS Systems Manager", e.getMessage()));
@@ -127,11 +127,13 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
             final KeysWrapper keys = new KeysWrapper(keyConstants);
             final SamlGenerator generator = new SamlGenerator(acd.email(), ssoMetadata.ssoRole(), rp.duration(), keys);
             final String encodedSamlResponse = generator.getBase64SamlResponse();
-            logger.info(String.format("Successfully generated SAML Response for user %s with role %s and duration %s",
-                    acd.email(), ssoMetadata.ssoRole(), rp.duration()));
+            logger.info("Successfully generated SAML Response for user {} with role {} and duration {}",
+                    acd.email(),
+                    ssoMetadata.ssoRole(),
+                    rp.duration());
             return createReturnMap(Status.SUCCESS, encodedSamlResponse, ssoMetadata.relayState(), null);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return createErrorReturnMap(Status.SYSTEM_ERROR,
                     String.format("Error in handler: user %s, ssoRole %s, duration %s; error message: %s",
                             acd.email(), ssoMetadata.ssoRole(), rp.duration(), e.getMessage()));
@@ -188,7 +190,7 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
     }
 
     @VisibleForTesting
-    void setSsmClient(SsmClient ssmClient) {
+    void setSsmClient(final SsmClient ssmClient) {
         this.ssmClient = ssmClient;
     }
 

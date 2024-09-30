@@ -27,7 +27,7 @@ public record KeyConstants(
         Date certNotBefore,
         Date certNotAfter,
         String jcaSignerSignatureAlg
-        ) {
+) {
 
     private static final BigInteger KEY_MODULUS = new BigInteger(
             "186207792853874271571279459245893970033952627841455523147130859272884847880052280823" +

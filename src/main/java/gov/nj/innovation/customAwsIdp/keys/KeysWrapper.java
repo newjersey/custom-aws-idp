@@ -37,14 +37,14 @@ public class KeysWrapper {
         final KeyFactory keyFactory;
         try {
             keyFactory = KeyFactory.getInstance(KEY_FACTORY_ALG);
-        } catch (NoSuchAlgorithmException e) {
+        } catch (final NoSuchAlgorithmException e) {
             throw new KeyGenerationException("Could not get key factory instance: " + e.getMessage(), e);
         }
 
         final KeySpec publicKeySpec = new RSAPublicKeySpec(keyConstants.modulus(), keyConstants.publicExponent());
         try {
             this.publicKey = keyFactory.generatePublic(publicKeySpec);
-        } catch (InvalidKeySpecException e) {
+        } catch (final InvalidKeySpecException e) {
             throw new KeyGenerationException("Could not construct public key: " + e.getMessage(), e);
         }
 
@@ -61,7 +61,7 @@ public class KeysWrapper {
         );
         try {
             this.privateKey = keyFactory.generatePrivate(privateKeySpec);
-        } catch (InvalidKeySpecException e) {
+        } catch (final InvalidKeySpecException e) {
             throw new KeyGenerationException("Could not construct private key: " + e.getMessage(), e);
         }
 
@@ -78,7 +78,7 @@ public class KeysWrapper {
                     .setProvider(new BouncyCastleProvider())
                     .build(this.privateKey);
             this.x509Certificate = new JcaX509CertificateConverter().getCertificate(certificateBuilder.build(signer));
-        } catch (OperatorCreationException | CertificateException e) {
+        } catch (final OperatorCreationException | CertificateException e) {
             throw new KeyGenerationException("Could not construct X509Certificate: " + e.getMessage(), e);
         }
     }
