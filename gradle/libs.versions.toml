@@ -25,4 +25,4 @@ orgJunitJupiter-junitJupiterParams = { group = "org.junit.jupiter", name = "juni
 ukOrgWebcompare-systemStubsJupiter = "uk.org.webcompere:system-stubs-jupiter:2.1.6"
 orgMockito-mockitoCore = "org.mockito:mockito-core:5.13.0"
 orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:1.11.1"
-orgJetbrains-annotations = "org.jetbrains:annotations:24.1.0"
+orgJetbrains-annotations = "org.jetbrains:annotations:25.0.0"
