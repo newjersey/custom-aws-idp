@@ -1,7 +1,7 @@
 [versions]
 keycloakVersion = "26.0.5"
 amazonSoftwareVersion = "2.29.5"
-junitJupiterVersion = "5.11.1"
+junitJupiterVersion = "5.11.3"
 apacheLoggingVersion = "2.24.1"
 bouncyCastleVersion = "1.79"
 
@@ -24,5 +24,5 @@ orgJunitJupiter-junitJupiterApi = { group = "org.junit.jupiter", name = "junit-j
 orgJunitJupiter-junitJupiterParams = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiterVersion" }
 ukOrgWebcompare-systemStubsJupiter = "uk.org.webcompere:system-stubs-jupiter:2.1.7"
 orgMockito-mockitoCore = "org.mockito:mockito-core:5.14.2"
-orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:1.11.1"
+orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:1.11.3"
 orgJetbrains-annotations = "org.jetbrains:annotations:26.0.1"
