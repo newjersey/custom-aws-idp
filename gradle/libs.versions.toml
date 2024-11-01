@@ -1,6 +1,6 @@
 [versions]
 keycloakVersion = "26.0.5"
-amazonSoftwareVersion = "2.28.11"
+amazonSoftwareVersion = "2.29.5"
 junitJupiterVersion = "5.11.1"
 apacheLoggingVersion = "2.24.1"
 bouncyCastleVersion = "1.78.1"
