@@ -1,5 +1,5 @@
 [versions]
-keycloakVersion = "26.0.5"
+keycloakVersion = "26.0.6"
 amazonSoftwareVersion = "2.29.5"
 junitJupiterVersion = "5.11.3"
 apacheLoggingVersion = "2.24.1"
