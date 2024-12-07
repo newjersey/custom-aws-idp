@@ -84,30 +84,37 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
 
     @Override
     public Map<String, String> handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
+        logger.info("CW - Inside handler");
         final RequestParameters rp = extractRequestParametersFromInput(input);
         if (rp.groupName() == null || rp.groupName().isBlank()) {
             return createErrorReturnMap(Status.INPUT_ERROR,
                     String.format("groupName must have a non-empty value, had %s", rp.groupName()));
         }
+        logger.info("CW - group name ok");
         if (rp.duration() == null || rp.duration().isBlank() || !DIGITS_PATTERN.matcher(rp.duration()).matches() ||
                 Integer.parseInt(rp.duration()) < 900 || Integer.parseInt(rp.duration()) > 43200) {
             return createErrorReturnMap(Status.INPUT_ERROR,
                     String.format("Invalid duration, must be an int between 900 and 43200, was %s", rp.duration()));
         }
+        logger.info("CW - duration ok");
 
         final AuthorizerContextDetails acd = extractAuthorizerDetailsFromInput(input);
+        logger.info("CW - extracted authorizer details");
         if (acd.email() == null || acd.email().isBlank()) {
             return createErrorReturnMap(Status.INPUT_ERROR,
                     String.format("email for Cognito user session must have a non-empty value, had %s", acd.email()));
         }
+        logger.info("CW - authorizer email ok");
         if (!acd.usersGroups().contains(rp.groupName())) {
             return createErrorReturnMap(Status.INPUT_ERROR,
                     String.format("User %s does not belong to a group named %s", acd.email(), rp.groupName()));
         }
+        logger.info("CW - authorizer group ok, region {} and pool {}", REGION, USER_POOL);
 
         final CognitoGroupDescriptionMetadata ssoMetadata;
         try {
             ssoMetadata = CognitoGroupDescriptionMetadataExtractor.extract(REGION, rp.groupName(), USER_POOL);
+            logger.info("CW - got sso metadata: {}", ssoMetadata);
         } catch (final RuntimeException e) {
             return createErrorReturnMap(Status.SYSTEM_ERROR,
                     String.format("Error trying to extract metadata from Group %s in UserPool %s: %s",
@@ -117,6 +124,7 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
         final KeyConstants keyConstants;
         try {
             keyConstants = new KeyConstants(ssmClient);
+            logger.info("CW - got keys");
         } catch (final NullPointerException | NumberFormatException e) {
             return createErrorReturnMap(Status.SYSTEM_ERROR,
                     String.format("KeyConstants threw an exception: %s.\nNOTE: Please check that the " +
@@ -124,8 +132,11 @@ public class GetSamlResponseHandler implements RequestHandler<APIGatewayProxyReq
         }
 
         try {
+            logger.info("CW - Inside try block");
             final KeysWrapper keys = new KeysWrapper(keyConstants);
+            logger.info("CW - keys made");
             final SamlGenerator generator = new SamlGenerator(acd.email(), ssoMetadata.ssoRole(), rp.duration(), keys);
+            logger.info("CW - saml generated");
             final String encodedSamlResponse = generator.getBase64SamlResponse();
             logger.info("Successfully generated SAML Response for user {} with role {} and duration {}",
                     acd.email(),

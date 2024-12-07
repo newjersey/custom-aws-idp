@@ -16,7 +16,10 @@ dependencies {
         libs.orgKecloak.keycloakSamlCore,
         libs.orgKecloak.keycloakServices,
         libs.orgBouncycastle.bcprovJdk18on,
-        libs.orgBouncycastle.bcpkixJdk18on
+        libs.orgBouncycastle.bcpkixJdk18on,
+        // For the AWS CDK
+        libs.softwareAmazonAwscdk.awsCdkLib,
+        libs.softwareConstructs.constructs
     )
     implementation(
         // From the Serverless generated code
@@ -72,6 +75,11 @@ tasks.register('buildZip', Zip) {
     into('lib') {
         from configurations.runtimeClasspath
     }
+}
+
+tasks.register('awscdk', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "gov.nj.innovation.customAwsIdp.awscdk.AwsIdpCdkApp"
 }
 
 build.dependsOn buildZip
