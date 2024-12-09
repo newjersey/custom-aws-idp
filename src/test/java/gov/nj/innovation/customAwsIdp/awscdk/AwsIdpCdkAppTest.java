@@ -6,6 +6,11 @@ package gov.nj.innovation.customAwsIdp.awscdk;
  import software.amazon.awscdk.assertions.Template;
  import java.util.Map;
 
+/**
+ * Tests for the AWS CDK stack. Currently, there's only one or two basic checks.
+ *
+ * @author Case Walker (case@innovation.nj.gov)
+ */
 public class AwsIdpCdkAppTest {
     private static final App app = new App();
     private static final AwsIdpCdkStack stack = new AwsIdpCdkStack(app, "test");
@@ -19,6 +24,6 @@ public class AwsIdpCdkAppTest {
                 "Runtime", "java17"));
 
         Assertions.assertEquals(1, cdkTemplate.findResources("AWS::Lambda::Function").size(),
-                "There should only be the one generateSamlResponse lambda function");
+                "There should only be the one Lambda function, generateSamlResponse");
     }
 }

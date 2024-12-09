@@ -69,12 +69,13 @@ logging in to AWS Connect.
 
    4. Upload key-secrets to AWS Systems Manager -> Parameter Store:
       1. See the `KEY_...` environment variables defined in
-         [serverless.yml](serverless.yml) and populate their corresponding SSM
-         names in the Parameter Store; values are stored in our Bitwarden vault
+         [Constants.java](src/main/java/gov/nj/innovation/customAwsIdp/util/Constants.java)
+         and populate their corresponding SSM names in the Parameter Store;
+         values are stored in our Bitwarden vault
 
 3. Build and deploy the Lambda (with AWS credentials set):
    ```commandline
-   ./gradlew clean build && serverless deploy
+   ./gradlew clean build && cdk deploy
    ```
 
 ## Usage

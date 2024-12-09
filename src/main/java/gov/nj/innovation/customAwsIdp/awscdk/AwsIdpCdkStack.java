@@ -1,6 +1,7 @@
 package gov.nj.innovation.customAwsIdp.awscdk;
 
 import software.amazon.awscdk.CfnOutput;
+import software.amazon.awscdk.Duration;
 import software.amazon.awscdk.aws_apigatewayv2_authorizers.HttpJwtAuthorizer;
 import software.amazon.awscdk.aws_apigatewayv2_integrations.HttpLambdaIntegration;
 import software.amazon.awscdk.services.apigatewayv2.AddRoutesOptions;
@@ -14,29 +15,44 @@ import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.amazon.awscdk.services.logs.LogGroup;
-import software.amazon.awssdk.regions.Region;
 import software.constructs.Construct;
 import software.amazon.awscdk.Stack;
 import software.amazon.awscdk.StackProps;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
+import static gov.nj.innovation.customAwsIdp.util.Constants.AWS_ACCOUNT_ID;
+import static gov.nj.innovation.customAwsIdp.util.Constants.AWS_REGION;
+import static gov.nj.innovation.customAwsIdp.util.Constants.COGNITO_APP_CLIENT_ID;
+import static gov.nj.innovation.customAwsIdp.util.Constants.COGNITO_USER_POOL;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_CRT_COEFFICIENT_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_EXPONENT_P_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_EXPONENT_Q_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_P_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_Q_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIVATE_EXPONENT_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.PATH_PARAMETER_GROUP_NAME;
+
+/**
+ * Stack for deploying infrastructure using the AWS CDK.
+ * <p>
+ * This stack currently includes:
+ * <ul>
+ *     <li>An HTTP API</li>
+ *     <li>A JWT Authorizer</li>
+ *     <li>A custom log group</li>
+ *     <li>The Lambda function</li>
+ *     <li>An HTTP Lambda Integration, to connect the APIGateway Route to the HTTP API</li>
+ *     <li>The APIGateway Authorizer/Lambda route</li>
+ *     <li>All the required permissions for the Lambda role</li>
+ * </ul>
+ *
+ * @author Case Walker (case@innovation.nj.gov)
+ */
 public class AwsIdpCdkStack extends Stack {
 
-    static final String AWS_ACCOUNT_ID = "274460373520";
-    private static final String AWS_REGION = Region.US_EAST_1.id();
-    private static final String COGNITO_APP_CLIENT_ID = "7i01fral9t0fdtodp78hi3vqrh";
-    private static final String COGNITO_USER_POOL = "us-east-1_AZyvZQdFN";
-    private static final String PATH_PARAMETER_GROUP_NAME = "groupName";
-    private static final String KEY_PRIVATE_EXPONENT_NAME = "custom-aws-idp-private-key-private-exponent";
-    private static final String KEY_PRIME_P_NAME = "custom-aws-idp-private-key-prime-p";
-    private static final String KEY_PRIME_Q_NAME = "custom-aws-idp-private-key-prime-q";
-    private static final String KEY_PRIME_EXPONENT_P_NAME = "custom-aws-idp-private-key-prime-exponent-p";
-    private static final String KEY_PRIME_EXPONENT_Q_NAME = "custom-aws-idp-private-key-prime-exponent-q";
-    private static final String KEY_CRT_COEFFICIENT_NAME = "custom-aws-idp-private-key-crt-coefficient";
     private static final String URL_PATH = "generateSaml/{" + PATH_PARAMETER_GROUP_NAME + "}";
 
     public AwsIdpCdkStack(final Construct scope, final String id) {
@@ -83,20 +99,8 @@ public class AwsIdpCdkStack extends Stack {
                 .code(Code.fromAsset("build/distributions/customIdp.zip"))
                 .handler("gov.nj.innovation.customAwsIdp.lambda.GetSamlResponseHandler")
                 .logGroup(lambdaLogGroup)
-                .environment(Map.ofEntries(
-                        Map.entry("COGNITO_REGION", AWS_REGION),
-                        Map.entry("COGNITO_USER_POOL", COGNITO_USER_POOL),
-                        Map.entry("PATH_PARAMETER_GROUP_NAME", PATH_PARAMETER_GROUP_NAME),
-                        // Get all secret key details from SSM
-                        Map.entry("KEY_PRIVATE_EXPONENT_NAME", KEY_PRIVATE_EXPONENT_NAME),
-                        Map.entry("KEY_PRIME_P_NAME", KEY_PRIME_P_NAME),
-                        Map.entry("KEY_PRIME_Q_NAME", KEY_PRIME_Q_NAME),
-                        Map.entry("KEY_PRIME_EXPONENT_P_NAME", KEY_PRIME_EXPONENT_P_NAME),
-                        Map.entry("KEY_PRIME_EXPONENT_Q_NAME", KEY_PRIME_EXPONENT_Q_NAME),
-                        Map.entry("KEY_CRT_COEFFICIENT_NAME", KEY_CRT_COEFFICIENT_NAME),
-                        // Set a default session duration of 1 hour
-                        Map.entry("DEFAULT_SESSION_DURATION", "3600")
-                ))
+                .memorySize(1024)
+                .timeout(Duration.seconds(15))
                 .build();
 
         // Connect the Lambda to the authorizer
