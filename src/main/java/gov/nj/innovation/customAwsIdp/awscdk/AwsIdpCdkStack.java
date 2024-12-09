@@ -62,8 +62,24 @@ public class AwsIdpCdkStack extends Stack {
     public AwsIdpCdkStack(final Construct scope, final String id, final StackProps props) {
         super(scope, id, props);
 
-        // Create the HTTP API and Cognito Authorizer
-        final HttpApi httpApi = HttpApi.Builder.create(this, "HttpApi")
+        // Create the Log Group and Lambda
+        final String logGroupId = "GenerateSamlResponseLogGroup";
+        final String logGroupName = "/aws/lambda/generateSamlResponse";
+        final LogGroup lambdaLogGroup = LogGroup.Builder.create(this, logGroupId).logGroupName(logGroupName).build();
+
+        final Function generateSamlResponse = Function.Builder.create(this, "GenerateSamlResponseLambda")
+                .functionName("generateSamlResponse")
+                .description("Generate a SAML Response for logging in to Amazon Connect")
+                .runtime(Runtime.JAVA_17)
+                .code(Code.fromAsset("build/distributions/customIdp.zip"))
+                .handler("gov.nj.innovation.customAwsIdp.lambda.GetSamlResponseHandler")
+                .logGroup(lambdaLogGroup)
+                .memorySize(1024)
+                .timeout(Duration.seconds(15))
+                .build();
+
+        // Create the HTTP API, the Cognito Authorizer, and the parts required to connect the Lambda to the Authorizer
+        final HttpApi httpApi = HttpApi.Builder.create(this, "HttpApi-for-GenerateSamlResponseLambda")
                 .corsPreflight(CorsPreflightOptions.builder()
                         .allowHeaders(List.of(
                                 "Content-Type",
@@ -87,23 +103,6 @@ public class AwsIdpCdkStack extends Stack {
                 .identitySource(List.of("$request.header.Authorization"))
                 .build();
 
-        // Create the Log Group and Lambda
-        final String logGroupId = "GenerateSamlResponseLogGroup";
-        final String logGroupName = "/aws/lambda/generateSamlResponse";
-        final LogGroup lambdaLogGroup = LogGroup.Builder.create(this, logGroupId).logGroupName(logGroupName).build();
-
-        final Function generateSamlResponse = Function.Builder.create(this, "GenerateSamlResponseLambda")
-                .functionName("generateSamlResponse")
-                .description("Generate a SAML Response for logging in to Amazon Connect")
-                .runtime(Runtime.JAVA_17)
-                .code(Code.fromAsset("build/distributions/customIdp.zip"))
-                .handler("gov.nj.innovation.customAwsIdp.lambda.GetSamlResponseHandler")
-                .logGroup(lambdaLogGroup)
-                .memorySize(1024)
-                .timeout(Duration.seconds(15))
-                .build();
-
-        // Connect the Lambda to the authorizer
         final HttpLambdaIntegration lambdaIntegration = HttpLambdaIntegration.Builder
                 .create("AuthorizerIntegration", generateSamlResponse)
                 .payloadFormatVersion(PayloadFormatVersion.VERSION_2_0)
@@ -154,7 +153,7 @@ public class AwsIdpCdkStack extends Stack {
                 .resources(ssmParameterArnList)
                 .build());
 
-        // Output
+        // Output the HTTP API URL
         CfnOutput.Builder.create(this, "ApiUrlOutput")
                 .key("ApiUrl")
                 .exportName("ApiUrl")
