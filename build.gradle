@@ -16,13 +16,14 @@ dependencies {
         libs.orgKecloak.keycloakSamlCore,
         libs.orgKecloak.keycloakServices,
         libs.orgBouncycastle.bcprovJdk18on,
-        libs.orgBouncycastle.bcpkixJdk18on
+        libs.orgBouncycastle.bcpkixJdk18on,
+        // For the AWS CDK
+        libs.softwareAmazonAwscdk.awsCdkLib,
+        libs.softwareConstructs.constructs
     )
     implementation(
-        // From the Serverless generated code
         libs.comAmazonaws.awsLambdaJavaCore,
         libs.comAmazonaws.awsLambdaJavaEvents,
-        libs.orgApacheLoggingLog4j.log4jSlf4j2Impl,
         libs.orgApacheLoggingLog4j.log4jCore,
         libs.orgApacheLoggingLog4j.log4jApi,
         libs.orgJetbrains.annotations
@@ -32,7 +33,6 @@ dependencies {
         libs.orgJunitJupiter.junitJupiter,
         libs.orgJunitJupiter.junitJupiterApi,
         libs.orgJunitJupiter.junitJupiterParams,
-        libs.ukOrgWebcompare.systemStubsJupiter,
         libs.orgMockito.mockitoCore
     )
     testRuntimeOnly libs.orgJunitPlatform.junitPlatformLauncher
@@ -40,29 +40,12 @@ dependencies {
 
 test {
     jvmArgs "-Xshare:off"
-    environment([
-        // Provide env vars for KeyConstants + testing odds and ends
-        "KEY_PRIVATE_EXPONENT_NAME": "custom-aws-idp-private-key-private-exponent",
-        "KEY_PRIME_P_NAME": "custom-aws-idp-private-key-prime-p",
-        "KEY_PRIME_Q_NAME": "custom-aws-idp-private-key-prime-q",
-        "KEY_PRIME_EXPONENT_P_NAME": "custom-aws-idp-private-key-prime-exponent-p",
-        "KEY_PRIME_EXPONENT_Q_NAME": "custom-aws-idp-private-key-prime-exponent-q",
-        "KEY_CRT_COEFFICIENT_NAME": "custom-aws-idp-private-key-crt-coefficient",
-        "COGNITO_REGION": "us-east-1",
-        "COGNITO_USER_POOL": "myPoolOfCoolUsers",
-        "DEFAULT_SESSION_DURATION": 900,
-        "PATH_PARAMETER_GROUP_NAME": "groupName",
-    ])
     useJUnitPlatform()
 }
 
 // Task for building the zip file for upload
 tasks.register('buildZip', Zip) {
     // Using the Zip API from gradle to build a zip file of all the dependencies
-    //
-    // The path to this zip file can be set in the serverless.yml file for the
-    // package/artifact setting for deployment to the S3 bucket
-    //
     // Link: https://docs.gradle.org/current/dsl/org.gradle.api.tasks.bundling.Zip.html
 
     // set the base name of the zip file
@@ -72,6 +55,11 @@ tasks.register('buildZip', Zip) {
     into('lib') {
         from configurations.runtimeClasspath
     }
+}
+
+tasks.register('awscdk', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "gov.nj.innovation.customAwsIdp.awscdk.AwsIdpCdkApp"
 }
 
 build.dependsOn buildZip

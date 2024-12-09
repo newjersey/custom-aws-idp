@@ -7,6 +7,13 @@ import software.amazon.awssdk.services.ssm.SsmClient;
 import java.math.BigInteger;
 import java.util.Date;
 
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_CRT_COEFFICIENT_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_EXPONENT_P_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_EXPONENT_Q_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_P_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIME_Q_NAME;
+import static gov.nj.innovation.customAwsIdp.util.Constants.KEY_PRIVATE_EXPONENT_NAME;
+
 /**
  * Store the constants needed for generating keys; some which are public, and some which are secrets populated from
  * environment variables and SSM.
@@ -46,23 +53,15 @@ public record KeyConstants(
     private static final Date CERT_NOT_AFTER = new Date(2011638867000L);
     private static final String JCA_SIGNER_SIGNATURE_ALG = "SHA256WithRSA";
 
-    // Names defined in the environment
-    private static final String KEY_PRIVATE_EXPONENT_NAME = "KEY_PRIVATE_EXPONENT_NAME";
-    private static final String KEY_PRIME_P_NAME = "KEY_PRIME_P_NAME";
-    private static final String KEY_PRIME_Q_NAME = "KEY_PRIME_Q_NAME";
-    private static final String KEY_PRIME_EXPONENT_P_NAME = "KEY_PRIME_EXPONENT_P_NAME";
-    private static final String KEY_PRIME_EXPONENT_Q_NAME = "KEY_PRIME_EXPONENT_Q_NAME";
-    private static final String KEY_CRT_COEFFICIENT_NAME = "KEY_CRT_COEFFICIENT_NAME";
-
     public KeyConstants(final SsmClient ssmClient) {
         this(KEY_MODULUS,
                 KEY_PUBLIC_EXPONENT,
-                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIVATE_EXPONENT_NAME))),
-                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_P_NAME))),
-                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_Q_NAME))),
-                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_EXPONENT_P_NAME))),
-                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_PRIME_EXPONENT_Q_NAME))),
-                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, System.getenv(KEY_CRT_COEFFICIENT_NAME))),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, KEY_PRIVATE_EXPONENT_NAME)),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, KEY_PRIME_P_NAME)),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, KEY_PRIME_Q_NAME)),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, KEY_PRIME_EXPONENT_P_NAME)),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, KEY_PRIME_EXPONENT_Q_NAME)),
+                new BigInteger(SsmClientWrapper.getParameterByName(ssmClient, KEY_CRT_COEFFICIENT_NAME)),
                 CERT_SUBJECT,
                 CERT_SERIAL,
                 CERT_NOT_BEFORE,
