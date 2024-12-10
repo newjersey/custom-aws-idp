@@ -16,8 +16,6 @@ import software.amazon.awssdk.services.ssm.SsmClient;
 import software.amazon.awssdk.services.ssm.model.GetParameterRequest;
 import software.amazon.awssdk.services.ssm.model.GetParameterResponse;
 import software.amazon.awssdk.services.ssm.model.Parameter;
-import uk.org.webcompere.systemstubs.environment.EnvironmentVariables;
-import uk.org.webcompere.systemstubs.jupiter.SystemStub;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,24 +36,6 @@ public class GetSamlResponseHandlerTest {
     private static final String EMAIL = "test@test.com";
     private static final MockedStatic<CognitoGroupDescriptionMetadataExtractor> EXTRACTOR_MOCKER =
             mockStatic(CognitoGroupDescriptionMetadataExtractor.class);
-
-    /**
-     * NOTE: This only works when running the tests locally. When running the tests with Gradle, the test-task uses its
-     * own environment variables. Changing this will have no effect on Gradle tests.
-     */
-    @SystemStub
-    private final EnvironmentVariables envVariables = new EnvironmentVariables(
-            "KEY_PRIVATE_EXPONENT_NAME", "custom-aws-idp-private-key-private-exponent",
-            "KEY_PRIME_P_NAME", "custom-aws-idp-private-key-prime-p",
-            "KEY_PRIME_Q_NAME", "custom-aws-idp-private-key-prime-q",
-            "KEY_PRIME_EXPONENT_P_NAME", "custom-aws-idp-private-key-prime-exponent-p",
-            "KEY_PRIME_EXPONENT_Q_NAME", "custom-aws-idp-private-key-prime-exponent-q",
-            "KEY_CRT_COEFFICIENT_NAME", "custom-aws-idp-private-key-crt-coefficient",
-            "COGNITO_REGION", "us-east-1",
-            "COGNITO_USER_POOL", "myPoolOfCoolUsers",
-            "DEFAULT_SESSION_DURATION", "900",
-            "PATH_PARAMETER_GROUP_NAME", "groupName"
-    );
 
     @AfterAll
     static void releaseStaticMock() {
