@@ -21,7 +21,7 @@ public class AwsIdpCdkAppTest {
         cdkTemplate.hasResourceProperties("AWS::Lambda::Function", Map.of(
                 "FunctionName", "generateSamlResponse",
                 "Handler", "gov.nj.innovation.customAwsIdp.lambda.GetSamlResponseHandler",
-                "Runtime", "java17"));
+                "Runtime", "java21"));
 
         Assertions.assertEquals(1, cdkTemplate.findResources("AWS::Lambda::Function").size(),
                 "There should only be the one Lambda function, generateSamlResponse");

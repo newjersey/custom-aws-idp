@@ -70,7 +70,7 @@ public class AwsIdpCdkStack extends Stack {
         final Function generateSamlResponse = Function.Builder.create(this, "GenerateSamlResponseLambda")
                 .functionName("generateSamlResponse")
                 .description("Generate a SAML Response for logging in to Amazon Connect")
-                .runtime(Runtime.JAVA_17)
+                .runtime(Runtime.JAVA_21)
                 .code(Code.fromAsset("build/distributions/customIdp.zip"))
                 .handler("gov.nj.innovation.customAwsIdp.lambda.GetSamlResponseHandler")
                 .logGroup(lambdaLogGroup)
