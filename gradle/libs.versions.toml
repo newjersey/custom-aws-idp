@@ -7,7 +7,7 @@ keycloakVersion = "26.0.8"
 
 [libraries]
 comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.2.3"
-comAmazonaws-awsLambdaJavaEvents = "com.amazonaws:aws-lambda-java-events:3.14.0"
+comAmazonaws-awsLambdaJavaEvents = "com.amazonaws:aws-lambda-java-events:3.15.0"
 comAmazonaws-awsLambdaJavaLog4j2 = "com.amazonaws:aws-lambda-java-log4j2:1.6.0"
 softwareAmazonAwssdk-cognitoidentityprovider = { group = "software.amazon.awssdk", name = "cognitoidentityprovider", version.ref = "amazonSoftwareVersion" }
 softwareAmazonAwssdk-ssm = { group = "software.amazon.awssdk", name = "ssm", version.ref = "amazonSoftwareVersion" }
