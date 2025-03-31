@@ -15,6 +15,7 @@ import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
 import software.amazon.awscdk.services.lambda.SnapStartConf;
+import software.amazon.awscdk.services.lambda.VersionOptions;
 import software.amazon.awscdk.services.logs.LogGroup;
 import software.constructs.Construct;
 import software.amazon.awscdk.Stack;
@@ -80,6 +81,7 @@ public class AwsIdpCdkStack extends Stack {
                 .timeout(Duration.seconds(15))
                 .environment(Map.of("JAVA_TOOL_OPTIONS", "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"))
                 .snapStart(SnapStartConf.ON_PUBLISHED_VERSIONS)
+                .currentVersionOptions(VersionOptions.builder().build())
                 .build();
 
         // Create the HTTP API, the Cognito Authorizer, and the parts required to connect the Lambda to the Authorizer
