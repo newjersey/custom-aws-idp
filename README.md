@@ -65,7 +65,9 @@ logging in to AWS Connect.
       1. For _SAML 2.0 federation_
       2. Using the above-created Identity Provider
       3. With "_Allow programmatic and AWS Management Console access_"
-      4. With the above-created Policy
+      4. With the Non-Regional endpoint type
+      5. Without unique identifiers for sign-in URLs
+      6. With the above-created Policy attached
 
    4. Upload key-secrets to AWS Systems Manager -> Parameter Store:
       1. See the `KEY_...` environment variables defined in
