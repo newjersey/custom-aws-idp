@@ -25,4 +25,4 @@ orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-laun
 orgJetbrains-annotations = "org.jetbrains:annotations:26.0.2"
 orgKecloak-keycloakSamlCore = { group = "org.keycloak", name = "keycloak-saml-core", version.ref = "keycloakVersion" }
 orgKecloak-keycloakServices = { group = "org.keycloak", name = "keycloak-services", version.ref = "keycloakVersion" }
-orgMockito-mockitoCore = "org.mockito:mockito-core:5.16.1"
+orgMockito-mockitoCore = "org.mockito:mockito-core:5.17.0"
