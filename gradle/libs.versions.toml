@@ -3,7 +3,7 @@ amazonSoftwareVersion = "2.31.8"
 apacheLoggingVersion = "2.24.3"
 bouncyCastleVersion = "1.80"
 junitJupiterVersion = "5.12.1"
-keycloakVersion = "26.1.4"
+keycloakVersion = "26.2.0"
 
 [libraries]
 comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.2.3"
