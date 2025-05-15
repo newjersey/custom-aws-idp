@@ -14,10 +14,6 @@ import software.amazon.awscdk.services.iam.PolicyStatement;
 import software.amazon.awscdk.services.lambda.Code;
 import software.amazon.awscdk.services.lambda.Function;
 import software.amazon.awscdk.services.lambda.Runtime;
-import software.amazon.awscdk.services.lambda.SnapStartConf;
-import software.amazon.awscdk.services.lambda.Version;
-import software.amazon.awscdk.services.lambda.VersionOptions;
-import software.amazon.awscdk.services.lambda.VersionProps;
 import software.amazon.awscdk.services.logs.LogGroup;
 import software.constructs.Construct;
 import software.amazon.awscdk.Stack;
@@ -25,7 +21,6 @@ import software.amazon.awscdk.StackProps;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Stream;
 
 import static gov.nj.innovation.customAwsIdp.util.Constants.AWS_ACCOUNT_ID;
@@ -81,11 +76,7 @@ public class AwsIdpCdkStack extends Stack {
                 .logGroup(lambdaLogGroup)
                 .memorySize(1024)
                 .timeout(Duration.seconds(15))
-                .environment(Map.of("JAVA_TOOL_OPTIONS", "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"))
-                .snapStart(SnapStartConf.ON_PUBLISHED_VERSIONS)
                 .build();
-
-        new Version(this, "GenerateSamlResponseLambdaVersion", VersionProps.builder().lambda(generateSamlResponse).build());
 
         // Create the HTTP API, the Cognito Authorizer, and the parts required to connect the Lambda to the Authorizer
         final HttpApi httpApi = HttpApi.Builder.create(this, "HttpApi-for-GenerateSamlResponseLambda")
