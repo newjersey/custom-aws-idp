@@ -11,7 +11,7 @@ comAmazonaws-awsLambdaJavaEvents = "com.amazonaws:aws-lambda-java-events:3.15.0"
 comAmazonaws-awsLambdaJavaLog4j2 = "com.amazonaws:aws-lambda-java-log4j2:1.6.0"
 softwareAmazonAwssdk-cognitoidentityprovider = { group = "software.amazon.awssdk", name = "cognitoidentityprovider", version.ref = "amazonSoftwareVersion" }
 softwareAmazonAwssdk-ssm = { group = "software.amazon.awssdk", name = "ssm", version.ref = "amazonSoftwareVersion" }
-softwareAmazonAwscdk-awsCdkLib = "software.amazon.awscdk:aws-cdk-lib:2.195.0"
+softwareAmazonAwscdk-awsCdkLib = "software.amazon.awscdk:aws-cdk-lib:2.203.1"
 softwareConstructs-constructs = "software.constructs:constructs:10.4.2"
 comFasterxmlJacksonDataformat-jacksonDataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.0"
 orgApacheLoggingLog4j-log4jCore = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "apacheLoggingVersion" }
