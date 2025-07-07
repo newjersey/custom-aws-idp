@@ -2,7 +2,7 @@
 amazonSoftwareVersion = "2.31.76"
 apacheLoggingVersion = "2.25.0"
 bouncyCastleVersion = "1.81"
-junitJupiterVersion = "5.13.2"
+junitJupiterVersion = "5.13.3"
 keycloakVersion = "26.3.0"
 
 [libraries]
