@@ -6,7 +6,7 @@ junitJupiterVersion = "5.13.4"
 keycloakVersion = "26.3.4"
 
 [libraries]
-comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.3.0"
+comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.4.0"
 comAmazonaws-awsLambdaJavaEvents = "com.amazonaws:aws-lambda-java-events:3.16.1"
 comAmazonaws-awsLambdaJavaLog4j2 = "com.amazonaws:aws-lambda-java-log4j2:1.6.0"
 softwareAmazonAwssdk-cognitoidentityprovider = { group = "software.amazon.awssdk", name = "cognitoidentityprovider", version.ref = "amazonSoftwareVersion" }
