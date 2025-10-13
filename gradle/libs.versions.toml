@@ -2,7 +2,7 @@
 amazonSoftwareVersion = "2.35.5"
 apacheLoggingVersion = "2.25.2"
 bouncyCastleVersion = "1.82"
-junitJupiterVersion = "5.13.4"
+junitJupiterVersion = "6.0.0"
 keycloakVersion = "26.4.0"
 
 [libraries]
@@ -21,7 +21,7 @@ orgBouncycastle-bcpkixJdk18on = { group = "org.bouncycastle", name = "bcpkix-jdk
 orgJunitJupiter-junitJupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiterVersion" }
 orgJunitJupiter-junitJupiterApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitJupiterVersion" }
 orgJunitJupiter-junitJupiterParams = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiterVersion" }
-orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:1.13.4"
+orgJunitPlatform-junitPlatformLauncher = "org.junit.platform:junit-platform-launcher:6.0.0"
 orgJetbrains-annotations = "org.jetbrains:annotations:26.0.2-1"
 orgKecloak-keycloakSamlCore = { group = "org.keycloak", name = "keycloak-saml-core", version.ref = "keycloakVersion" }
 orgKecloak-keycloakServices = { group = "org.keycloak", name = "keycloak-services", version.ref = "keycloakVersion" }
