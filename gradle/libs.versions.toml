@@ -1,5 +1,5 @@
 [versions]
-amazonSoftwareVersion = "2.33.9"
+amazonSoftwareVersion = "2.35.5"
 apacheLoggingVersion = "2.25.2"
 bouncyCastleVersion = "1.82"
 junitJupiterVersion = "5.13.4"
