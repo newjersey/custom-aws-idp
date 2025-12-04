@@ -13,7 +13,7 @@ softwareAmazonAwssdk-cognitoidentityprovider = { group = "software.amazon.awssdk
 softwareAmazonAwssdk-ssm = { group = "software.amazon.awssdk", name = "ssm", version.ref = "amazonSoftwareVersion" }
 softwareAmazonAwscdk-awsCdkLib = "software.amazon.awscdk:aws-cdk-lib:2.219.0"
 softwareConstructs-constructs = "software.constructs:constructs:10.4.2"
-comFasterxmlJacksonDataformat-jacksonDataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.20.0"
+comFasterxmlJacksonDataformat-jacksonDataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.20.1"
 orgApacheLoggingLog4j-log4jCore = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "apacheLoggingVersion" }
 orgApacheLoggingLog4j-log4jApi = { group = "org.apache.logging.log4j", name = "log4j-api", version.ref = "apacheLoggingVersion" }
 orgBouncycastle-bcprovJdk18on = { group = "org.bouncycastle", name = "bcprov-jdk18on", version.ref = "bouncyCastleVersion" }
