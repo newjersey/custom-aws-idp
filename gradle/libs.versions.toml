@@ -22,7 +22,7 @@ orgJunitJupiter-junitJupiter = { group = "org.junit.jupiter", name = "junit-jupi
 orgJunitJupiter-junitJupiterApi = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitVersion" }
 orgJunitJupiter-junitJupiterParams = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitVersion" }
 orgJunitPlatform-junitPlatformLauncher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junitVersion" }
-orgJetbrains-annotations = "org.jetbrains:annotations:26.0.2-1"
+orgJetbrains-annotations = "org.jetbrains:annotations:26.1.0"
 orgKecloak-keycloakSamlCore = { group = "org.keycloak", name = "keycloak-saml-core", version.ref = "keycloakVersion" }
 orgKecloak-keycloakServices = { group = "org.keycloak", name = "keycloak-services", version.ref = "keycloakVersion" }
 orgMockito-mockitoCore = "org.mockito:mockito-core:5.20.0"
