@@ -4,6 +4,7 @@ apacheLoggingVersion = "2.25.4"
 bouncyCastleVersion = "1.84"
 junitVersion = "6.0.3"
 keycloakVersion = "26.6.1"
+jacksonToolsVersion = "3.1.2"
 
 [libraries]
 comAmazonaws-awsLambdaJavaCore = "com.amazonaws:aws-lambda-java-core:1.4.0"
@@ -13,7 +14,10 @@ softwareAmazonAwssdk-cognitoidentityprovider = { group = "software.amazon.awssdk
 softwareAmazonAwssdk-ssm = { group = "software.amazon.awssdk", name = "ssm", version.ref = "amazonSoftwareVersion" }
 softwareAmazonAwscdk-awsCdkLib = "software.amazon.awscdk:aws-cdk-lib:2.250.0"
 softwareConstructs-constructs = "software.constructs:constructs:10.6.0"
-comFasterxmlJacksonDataformat-jacksonDataformatYaml = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.21.2"
+toolsJacksonDataformat-jacksonDataformatYaml = { group = "tools.jackson.dataformat", name = "jackson-dataformat-yaml", version.ref = "jacksonToolsVersion" }
+toolsJacksonCore-jacksonCore = { group = "tools.jackson.core", name = "jackson-core", version.ref = "jacksonToolsVersion" }
+toolsJacksonCore-jacksonDatabind = { group = "tools.jackson.core", name = "jackson-databind", version.ref = "jacksonToolsVersion" }
+comFasterxmlJacksonDataformat-jacksonAnnotations = "com.fasterxml.jackson.core:jackson-annotations:2.21"
 orgApacheLoggingLog4j-log4jCore = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "apacheLoggingVersion" }
 orgApacheLoggingLog4j-log4jApi = { group = "org.apache.logging.log4j", name = "log4j-api", version.ref = "apacheLoggingVersion" }
 orgBouncycastle-bcprovJdk18on = { group = "org.bouncycastle", name = "bcprov-jdk18on", version.ref = "bouncyCastleVersion" }

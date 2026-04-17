@@ -1,8 +1,5 @@
 package gov.nj.innovation.customAwsIdp.lambda.helpers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import gov.nj.innovation.customAwsIdp.lambda.helpers.data.CognitoGroupDescriptionMetadata;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +7,9 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.cognitoidentityprovider.CognitoIdentityProviderClient;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.GetGroupRequest;
 import software.amazon.awssdk.services.cognitoidentityprovider.model.GetGroupResponse;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.dataformat.yaml.YAMLFactory;
 
 /**
  * Extract metadata stored as YAML in the description of a Cognito Group.
@@ -48,7 +48,7 @@ public class CognitoGroupDescriptionMetadataExtractor {
                     userPoolId,
                     groupName);
             return groupDescriptionMetadata;
-        } catch (final RuntimeException | JsonProcessingException e) {
+        } catch (final JacksonException e) {
             final String errorMessage = String.format(
                     "Exception while trying to connect to/query Cognito for a group description, " +
                             "or while parsing YAML: %s (input [region: %s, groupName: %s, userPoolId: %s])",

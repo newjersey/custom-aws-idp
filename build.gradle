@@ -10,7 +10,10 @@ dependencies {
     api(
         // For getting the Cognito UserPool Group Description, reading YAML, and accessing SSM
         libs.softwareAmazonAwssdk.cognitoidentityprovider,
-        libs.comFasterxmlJacksonDataformat.jacksonDataformatYaml,
+        libs.toolsJacksonCore.jacksonCore,
+        libs.toolsJacksonCore.jacksonDatabind,
+        libs.toolsJacksonDataformat.jacksonDataformatYaml,
+        libs.comFasterxmlJacksonDataformat.jacksonAnnotations,
         libs.softwareAmazonAwssdk.ssm,
         // For SAML generation, from Keycloak
         libs.orgKecloak.keycloakSamlCore,
